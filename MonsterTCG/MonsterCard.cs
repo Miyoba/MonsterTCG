@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 
 namespace MonsterTCG
 {
-    public class MonsterCard
+    public class MonsterCard:ICard
     {
-        public int health
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public EnumMonsterType Type { get; set; }
 
-        public int damage
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int Damage { get; set; }
+
+        public EnumElementType Element { get; set; }
+
+        public string Name { get; set; }
+        
     }
 }

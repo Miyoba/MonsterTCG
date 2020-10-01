@@ -5,14 +5,11 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public abstract class Card
+
+    public interface ICard
     {
-        public int name
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        int Damage { get; set; }
+        EnumElementType Element { get; set; }
+        string Name { get; set; }
     }
 }

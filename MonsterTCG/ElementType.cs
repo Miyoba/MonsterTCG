@@ -5,10 +5,10 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class CardDeck
+    public enum EnumElementType
     {
-        public List<ICard> Cards { get; set; }
-
-        public int Size { get; set; }
+        Fire,
+        Normal,
+        Water
     }
 }

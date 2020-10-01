@@ -34,13 +34,19 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card.cs" />
     <Compile Include="CardDeck.cs" />
+    <Compile Include="ElementType.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="MonsterCard.cs" />
+    <Compile Include="Monstertyp.cs" />
     <Compile Include="SpellCard.cs" />
+    <Compile Include="Store.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

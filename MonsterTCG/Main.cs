@@ -5,10 +5,7 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class CardDeck
+    public class Main
     {
-        public List<ICard> Cards { get; set; }
-
-        public int Size { get; set; }
     }
 }
