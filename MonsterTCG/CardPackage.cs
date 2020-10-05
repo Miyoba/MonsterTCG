@@ -5,9 +5,9 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class Store
+    public class CardPackage:ICardPackage
     {
-        public List<TradeCards> MarketCards
+        public List<ICard> Content
         {
             get => default;
             set
@@ -15,9 +15,12 @@ namespace MonsterTCG
             }
         }
 
-        public List<ICardPackage> getCardPackages(int amount)
+        public int Size
         {
-            throw new System.NotImplementedException();
+            get => default;
+            set
+            {
+            }
         }
     }
 }

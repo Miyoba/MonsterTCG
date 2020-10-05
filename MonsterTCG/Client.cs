@@ -5,8 +5,9 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class Main
+    public class Client
     {
+
         public Server Server
         {
             get => default;
@@ -15,7 +16,7 @@ namespace MonsterTCG
             }
         }
 
-        public Client Client
+        public String Username
         {
             get => default;
             set
@@ -23,12 +24,36 @@ namespace MonsterTCG
             }
         }
 
-        public void createServer()
+        public int PasswordHash
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public String AuthToken
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public User User
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Boolean connect()
         {
             throw new System.NotImplementedException();
         }
 
-        public void createClient()
+        public void buyCardPackage()
         {
             throw new System.NotImplementedException();
         }

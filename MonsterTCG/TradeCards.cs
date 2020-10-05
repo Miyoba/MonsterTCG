@@ -5,9 +5,9 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class User
+    public class TradeCards
     {
-        public string Username
+        public CardType Type
         {
             get => default;
             set
@@ -15,7 +15,7 @@ namespace MonsterTCG
             }
         }
 
-        public int Coins
+        public ICard Card
         {
             get => default;
             set
@@ -23,7 +23,15 @@ namespace MonsterTCG
             }
         }
 
-        public Stack Stack
+        public int RequirementDamage
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public EnumElementType RequirementElement
         {
             get => default;
             set

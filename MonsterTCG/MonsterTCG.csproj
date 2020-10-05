@@ -39,13 +39,22 @@
   <ItemGroup>
     <Compile Include="Card.cs" />
     <Compile Include="CardDeck.cs" />
+    <Compile Include="CardPackage.cs" />
+    <Compile Include="CardType.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="ElementType.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="ICardPackage.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MatchingRoom.cs" />
     <Compile Include="MonsterCard.cs" />
+    <Compile Include="MonsterTCG_DB.cs" />
     <Compile Include="Monstertyp.cs" />
+    <Compile Include="Server.cs" />
     <Compile Include="SpellCard.cs" />
+    <Compile Include="Stack.cs" />
     <Compile Include="Store.cs" />
+    <Compile Include="TradeCards.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
