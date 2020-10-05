@@ -7,7 +7,7 @@ namespace MonsterTCG
 {
     public class TradeCards
     {
-        public CardType Type
+        public CardType RequirementType
         {
             get => default;
             set
