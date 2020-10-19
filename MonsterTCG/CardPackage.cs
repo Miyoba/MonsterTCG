@@ -30,5 +30,10 @@ namespace MonsterTCG
             {
             }
         }
+
+        public void openPackage(Stack stack)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class Game
+    public class BattleLog
     {
-        public Game(List<User> user, List<CardDeck> decks)
+        public BattleLog(List<User> player)
         {
             throw new System.NotImplementedException();
         }
@@ -20,7 +20,15 @@ namespace MonsterTCG
             }
         }
 
-        public void start()
+        public String Log
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public void AddRoundText()
         {
             throw new System.NotImplementedException();
         }

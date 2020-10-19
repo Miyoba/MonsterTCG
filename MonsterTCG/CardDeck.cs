@@ -7,44 +7,59 @@ namespace MonsterTCG
 {
     public class CardDeck
     {
-        public CardDeck(List<ICard> cards)
+        public CardDeck(List<ICard> cards, int size)
         {
-            throw new System.NotImplementedException();
+            MaxSize = 4;
+            if(cards.Count > MaxSize)
+                throw new ArgumentException("Too many cards in the Deck.");
+            Cards = cards;
+            Legal = Cards.Count == MaxSize;
         }
 
         public CardDeck()
         {
-            throw new System.NotImplementedException();
+            MaxSize = 4;
+            Cards = new List<ICard>();
+            Legal = false;
+        }
+
+        public CardDeck(int size)
+        {
+            MaxSize = size;
+            Cards = new List<ICard>();
+            Legal = false;
         }
 
         public List<ICard> Cards { get; set; }
 
-        public int Size { get; set; }
+        public int MaxSize { get; set; }
 
-        public bool Legal
+        public bool Legal { get; set; }
+
+        public string DeckName { get; set; }
+
+        public bool AddCard(ICard card)
         {
-            get => default;
-            set
+            if (Cards.Count < MaxSize)
             {
+                Cards.Add(card);
+                if (MaxSize == Cards.Count)
+                    Legal = true;
+                return true;
             }
+
+            throw new ArgumentException("Can't add a card in a deck that reached its maximum capacity.");
         }
 
-        public string DeckName
+        public bool RemoveCard(ICard card)
         {
-            get => default;
-            set
-            {
-            }
-        }
+            if(!Cards.Contains(card))
+                throw new ArgumentException("No card found to remove in deck.");
+            
+            Cards.Remove(card);
+            Legal = false;
+            return true;
 
-        public bool addCard(ICard card)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool removeCard(string name)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

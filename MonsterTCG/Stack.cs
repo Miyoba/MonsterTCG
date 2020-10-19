@@ -22,5 +22,10 @@ namespace MonsterTCG
             {
             }
         }
+
+        public List<ICard> AddCards()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

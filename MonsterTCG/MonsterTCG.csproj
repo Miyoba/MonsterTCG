@@ -37,15 +37,16 @@
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleLog.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CardDeck.cs" />
     <Compile Include="CardPackage.cs" />
     <Compile Include="CardType.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="ElementType.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Battle.cs" />
     <Compile Include="ICardPackage.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="MatchingRoom.cs" />
     <Compile Include="MonsterCard.cs" />
     <Compile Include="MonsterTCG_DB.cs" />

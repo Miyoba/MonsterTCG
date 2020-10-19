@@ -36,7 +36,7 @@ namespace MonsterTCG
             }
         }
 
-        public Game Game
+        public Battle Game
         {
             get => default;
             set

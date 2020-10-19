@@ -5,14 +5,19 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class MonsterTCGDB
+    public class Battle
     {
-        public MonsterTCGDB(string hostname, string pass, string username)
+        public Battle(List<User> user, int maxRounds)
         {
             throw new System.NotImplementedException();
         }
 
-        public string Hostname
+        public Battle(List<User> user)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<User> Player
         {
             get => default;
             set
@@ -20,7 +25,7 @@ namespace MonsterTCG
             }
         }
 
-        public string Password
+        public int MaxRounds
         {
             get => default;
             set
@@ -28,7 +33,7 @@ namespace MonsterTCG
             }
         }
 
-        public string Username
+        public int CurrentRound
         {
             get => default;
             set
@@ -36,17 +41,17 @@ namespace MonsterTCG
             }
         }
 
-        public void connect()
+        public BattleLog Fight()
         {
             throw new System.NotImplementedException();
         }
 
-        public Dictionary<string, int> getUserCredentials(string username)
+        public string NextRound()
         {
             throw new System.NotImplementedException();
         }
 
-        public User getUserInformation(string username)
+        public User GetWinner()
         {
             throw new System.NotImplementedException();
         }

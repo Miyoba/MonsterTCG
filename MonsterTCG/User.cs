@@ -30,5 +30,21 @@ namespace MonsterTCG
             {
             }
         }
+
+        public CardDeck SelectedDeck
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public List<BattleLog> Logs
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
