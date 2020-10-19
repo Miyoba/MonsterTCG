@@ -9,6 +9,7 @@ namespace MonsterTCG
     {
         int Size { get; set; }
         List<ICard> Content { get; set; }
+        int Cost { get; set; }
 
         void openPackage(Stack stack);
     }

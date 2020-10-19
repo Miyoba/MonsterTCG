@@ -22,5 +22,13 @@ namespace MonsterTCG
             {
             }
         }
+
+        public int Cost
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

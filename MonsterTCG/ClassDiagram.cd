@@ -27,7 +27,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAIAAAAAARQAAAAAAAAACA=</HashCode>
       <FileName>CardDeck.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -83,16 +83,18 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MonsterTCG.Server">
-    <Position X="1.75" Y="1.75" Width="2.75" />
+    <Position X="1.75" Y="0.75" Width="2.75" />
     <AssociationLine Name="Store" Type="MonsterTCG.Store" FixedFromPoint="true">
       <Path>
-        <Point X="1.938" Y="3.69" />
+        <Point X="1.938" Y="3.459" />
         <Point X="1.938" Y="9.5" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="Game" Type="MonsterTCG.Game" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="4.375" Y="3.69" />
+        <Point X="4.375" Y="3.459" />
+        <Point X="4.375" Y="4.605" />
+        <Point X="4.375" Y="4.605" />
         <Point X="4.375" Y="4.75" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -100,7 +102,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAEAAAAAAAAAgEAAAAAAABAQAACAA=</HashCode>
+      <HashCode>AAACAAAAAQAAAAAAEEAAAAAAAAgEAAAAAAABAQAACAA=</HashCode>
       <FileName>Server.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -143,7 +145,7 @@
       <Path>
         <Point X="7.5" Y="6.938" />
         <Point X="3.438" Y="6.938" />
-        <Point X="3.438" Y="3.69" />
+        <Point X="3.438" Y="3.459" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.492" Y="0.058" />
@@ -168,7 +170,7 @@
   <Class Name="MonsterTCG.CardPackage">
     <Position X="16" Y="11.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAgAAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CardPackage.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -178,7 +180,9 @@
     <AssociationLine Name="Server" Type="MonsterTCG.Server" ManuallyRouted="true" FixedFromPoint="true">
       <Path>
         <Point X="2.875" Y="7.25" />
-        <Point X="2.875" Y="3.69" />
+        <Point X="2.875" Y="5.855" />
+        <Point X="2.875" Y="5.855" />
+        <Point X="2.875" Y="3.459" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.018" Y="0.037" />
@@ -206,8 +210,8 @@
       <FileName>TradeCards.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Card" />
       <Property Name="RequirementType" />
+      <Property Name="Card" />
       <Property Name="RequirementElement" />
     </ShowAsAssociation>
   </Class>
@@ -229,7 +233,7 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="MonsterTCG.ICardPackage">
-    <Position X="16" Y="9.5" Width="1.75" />
+    <Position X="16" Y="9.25" Width="1.75" />
     <AssociationLine Name="Content" Type="MonsterTCG.ICard" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="16" Y="10.062" />
@@ -242,7 +246,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAgIAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ICardPackage.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
