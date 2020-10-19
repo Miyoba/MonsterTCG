@@ -48,7 +48,7 @@ namespace MonsterTCG
             }
         }
 
-        public Boolean connect()
+        public Server connect()
         {
             throw new System.NotImplementedException();
         }
