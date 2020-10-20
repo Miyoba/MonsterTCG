@@ -55,6 +55,7 @@ namespace MonsterTCG_Tests
 
             // assert
             Assert.AreEqual(new List<ICard>(), deck.Cards);
+            Assert.IsFalse(deck.Legal);
 
         }
 
