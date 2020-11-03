@@ -12,7 +12,7 @@ namespace MonsterTCG
             throw new System.NotImplementedException();
         }
 
-        public Battle(List<User> user)
+        public Battle(List<User> player)
         {
             throw new System.NotImplementedException();
         }
@@ -34,6 +34,14 @@ namespace MonsterTCG
         }
 
         public int CurrentRound
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Dictionary<User, BattleDeck> battleDecks
         {
             get => default;
             set

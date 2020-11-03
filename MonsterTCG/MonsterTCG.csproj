@@ -37,15 +37,26 @@
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleDeck.cs" />
     <Compile Include="BattleLog.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CardDeck.cs" />
     <Compile Include="CardPackage.cs" />
     <Compile Include="CardType.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="Dragon.cs" />
+    <Compile Include="Element.cs" />
     <Compile Include="ElementType.cs" />
     <Compile Include="Battle.cs" />
+    <Compile Include="Fire.cs" />
+    <Compile Include="Fireelf.cs" />
+    <Compile Include="Goblin.cs" />
     <Compile Include="ICardPackage.cs" />
+    <Compile Include="IElement.cs" />
+    <Compile Include="Knight.cs" />
+    <Compile Include="Kraken.cs" />
+    <Compile Include="Normal.cs" />
+    <Compile Include="Orc.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="MatchingRoom.cs" />
     <Compile Include="MonsterCard.cs" />
@@ -57,6 +68,8 @@
     <Compile Include="Store.cs" />
     <Compile Include="TradeCards.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="Water.cs" />
+    <Compile Include="Wizard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
