@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Mime;
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace REST_HTTP_Webservice
@@ -26,11 +29,17 @@ namespace REST_HTTP_Webservice
 
                     using var reader = new StreamReader(socket.GetStream());
                     string message;
+                    string messageComplete = "";
                     do
                     {
                         message = reader.ReadLine();
-                        Console.WriteLine("received: " + message);
-                    } while (message != "quit");
+                        Console.WriteLine("Received: " + message);
+                        messageComplete += message;
+                    } while (message != "");
+                    var temp = new HttpPackage(messageComplete);
+                    Console.WriteLine("\n###########################################\n");
+                    Console.WriteLine(temp.GetInfo());
+                    socket.Close();
                 }
                 catch (Exception exc)
                 {
