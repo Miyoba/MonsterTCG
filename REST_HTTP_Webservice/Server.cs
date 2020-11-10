@@ -36,8 +36,22 @@ namespace REST_HTTP_Webservice
                         Console.WriteLine("Received: " + message);
                         messageComplete += message;
                     } while (message != "");
+                    
                     var temp = new HttpPackage(messageComplete);
                     Console.WriteLine("\n###########################################\n");
+                    
+
+                    if (temp.ContentLength != 0)
+                    {
+                        string msg = "";
+
+                        for(int i = 0; i < temp.ContentLength; i++)
+                        {
+                            msg += (char) reader.Read();
+                        }
+                        temp.Payload = msg;
+                    }
+
                     Console.WriteLine(temp.GetInfo());
                     socket.Close();
                 }

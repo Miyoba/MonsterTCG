@@ -16,6 +16,7 @@ namespace REST_HTTP_Webservice
         public string Accept { get; set; }
         public int ContentLength { get; set; }
         public string ContentType { get; set; }
+        public string Payload { get; set; }
 
         public HttpPackage(string message)
         {
@@ -51,7 +52,7 @@ namespace REST_HTTP_Webservice
 
         public string GetInfo()
         {
-            return "Request: "+Request+"\nPath: "+Path+"\nVersion: "+Version+"\nHost: "+Host+"\nUserAgent: "+UserAgent+"\nAccept: "+Accept+"\nContentLength: "+ContentLength+"\nContentType: "+ContentType+"\n\n";
+            return "Request: "+Request+"\nPath: "+Path+"\nVersion: "+Version+"\nHost: "+Host+"\nUserAgent: "+UserAgent+"\nAccept: "+Accept+"\nContentLength: "+ContentLength+"\nContentType: "+ContentType+"\n\nPayload: "+Payload+"\n\n";
         }
     }
 }
