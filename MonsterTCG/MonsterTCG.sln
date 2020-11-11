@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonsterTCG_Tests", "..\Mons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REST_HTTP_Webservice", "..\REST_HTTP_Webservice\REST_HTTP_Webservice.csproj", "{12529816-4BF8-47B7-8256-FAA11BFEC145}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REST_HTTP_Webservice_Client", "..\REST_HTTP_Webservice_Client\REST_HTTP_Webservice_Client.csproj", "{68F492D7-91CE-4CB4-AA83-84078A1F5084}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REST_HTTP_Webservice_Client", "..\REST_HTTP_Webservice_Client\REST_HTTP_Webservice_Client.csproj", "{68F492D7-91CE-4CB4-AA83-84078A1F5084}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REST_HTTP_Webservice_Tests", "..\REST_HTTP_Webservice_Tests\REST_HTTP_Webservice_Tests.csproj", "{BF7E5037-69CD-4763-943F-919E77E71442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{68F492D7-91CE-4CB4-AA83-84078A1F5084}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68F492D7-91CE-4CB4-AA83-84078A1F5084}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68F492D7-91CE-4CB4-AA83-84078A1F5084}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF7E5037-69CD-4763-943F-919E77E71442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF7E5037-69CD-4763-943F-919E77E71442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF7E5037-69CD-4763-943F-919E77E71442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF7E5037-69CD-4763-943F-919E77E71442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
