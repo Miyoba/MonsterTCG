@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace REST_HTTP_Webservice
 {
-    class HttpPackage
+    public class HttpPackage
     {
         public string Request { get; set; }
         public string Path { get; set; }
@@ -52,7 +52,40 @@ namespace REST_HTTP_Webservice
 
         public string GetInfo()
         {
-            return "Request: "+Request+"\nPath: "+Path+"\nVersion: "+Version+"\nHost: "+Host+"\nUserAgent: "+UserAgent+"\nAccept: "+Accept+"\nContentLength: "+ContentLength+"\nContentType: "+ContentType+"\n\nPayload: "+Payload+"\n\n";
+            return "Request: "+Request+
+                   "\nPath: "+Path+
+                   "\nVersion: "+Version+
+                   "\nHost: "+Host+
+                   "\nUserAgent: "+UserAgent+
+                   "\nAccept: "+Accept+
+                   "\nContentLength: "+ContentLength+
+                   "\nContentType: "+ContentType+
+                   "\n\nPayload: "+Payload+"\n\n";
         }
+
+        public string GetOk(string response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetCreated(string response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetNoContent(string response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetBadRequest(string response)
+        {
+            throw new NotImplementedException();
+        }
+        public string GetNotFound(string response)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
