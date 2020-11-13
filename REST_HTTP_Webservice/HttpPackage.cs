@@ -18,49 +18,60 @@ namespace REST_HTTP_Webservice
         public string ContentType { get; set; }
         public string Payload { get; set; }
 
-        public HttpPackage(string message)
+        public HttpPackage(List<string> messages)
         {
-            string[] separator = {" ", "Host: "};
-            string[] words = message.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
-            Request = words[0];
-            Path = words[1];
-            Version = words[2];
 
-            separator = new string[]{"Host: ", "User-Agent: "};
-            words = message.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
-            Host = words[1];
+            ContentLength = 0;
 
-            separator = new string[]{"User-Agent: ", "Accept: "};
-            words = message.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
-            UserAgent = words[1];
-
-            separator = new string[]{"Accept: ", "Content-Length: "};
-            words = message.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
-            Accept = words[1];
-
-            if (words.Length > 2)
+            foreach (var message in messages)
             {
-                separator = new string[]{"Content-Length: ", "Content-Type: "};
-                words = message.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
-                ContentLength = Int32.Parse(words[1]);
-                
-                separator = new string[]{"Content-Type: "};
-                words = message.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
-                ContentType = words[1];
+                string[] separator = {" "};
+                string[] words = message.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+
+                if (words.Length == 3)
+                {
+                    Request = words[0];
+                    Path = words[1];
+                    Version = words[2];
+                }
+                else if(words.Length != 0)
+                {
+                    switch (words[0])
+                    {
+                        case "Host:":
+                            Host = words[1];
+                            break;
+                        case "User-Agent:":
+                            UserAgent = words[1];
+                            break;
+                        case "Accept:":
+                            Accept = words[1];
+                            break;
+                        case "Content-Length:":
+                            ContentLength = Int32.Parse(words[1]);
+                            break;
+                        case "Content-Type:":
+                            ContentType = words[1];
+                            break;
+
+                    }
+                }
             }
         }
 
-        public string GetInfo()
+        public Dictionary<string, string> GetInfo()
         {
-            return "Request: "+Request+
-                   "\nPath: "+Path+
-                   "\nVersion: "+Version+
-                   "\nHost: "+Host+
-                   "\nUserAgent: "+UserAgent+
-                   "\nAccept: "+Accept+
-                   "\nContentLength: "+ContentLength+
-                   "\nContentType: "+ContentType+
-                   "\n\nPayload: "+Payload+"\n\n";
+            var erg = new Dictionary<string, string>();
+            erg.Add("Request",Request);
+            erg.Add("Path",Path);
+            erg.Add("Version",Version);
+            erg.Add("Host",Host);
+            erg.Add("UserAgent",UserAgent);
+            erg.Add("Accept",Accept);
+            erg.Add("ContentLength",""+ContentLength);
+            erg.Add("ContentType",ContentType);
+            erg.Add("Payload",Payload);
+            return erg;
         }
 
         public string GetOk(string response)

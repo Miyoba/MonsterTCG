@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 using REST_HTTP_Webservice;
 
@@ -9,11 +10,13 @@ namespace REST_HTTP_Webservice_Tests
         public void TestHttpPackage_Constructor_GET()
         {
             // arrange
-            string testText = "GET / HTTP/1.1" +
-                              "Host: localhost:8000"+
-                              "User-Agent: curl/7.55.1"+
-                              "Accept: */*"+
-                              "";
+            var testText = new List<string>();
+            testText.Add("GET / HTTP/1.1");
+            testText.Add("Host: localhost:8000");
+            testText.Add("User-Agent: curl/7.55.1");
+            testText.Add("Accept: */*");
+            testText.Add("");
+
             // act
             HttpPackage request = new HttpPackage(testText);
 
@@ -31,13 +34,15 @@ namespace REST_HTTP_Webservice_Tests
         public void TestHttpPackage_Constructor_POST()
         {
             // arrange
-            string testText = "POST /message HTTP/1.1" +
-                              "Host: localhost:8000"+
-                              "User-Agent: curl/7.55.1"+
-                              "Accept: */*"+
-                              "Content-Length: 5"+
-                              "Content-Type: text/plain"+
-                              "";
+            var testText = new List<string>();
+            testText.Add("POST /message HTTP/1.1");
+            testText.Add("Host: localhost:8000");
+            testText.Add("User-Agent: curl/7.55.1");
+            testText.Add("Accept: */*");
+            testText.Add("Content-Length: 5");
+            testText.Add("Content-Type: text/plain");
+            testText.Add("");
+
             // act
             HttpPackage request = new HttpPackage(testText);
             request.Payload = "Abcde";

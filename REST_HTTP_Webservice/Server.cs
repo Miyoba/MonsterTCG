@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -29,30 +30,39 @@ namespace REST_HTTP_Webservice
 
                     using var reader = new StreamReader(socket.GetStream());
                     string message;
-                    string messageComplete = "";
+                    var messageList = new List<string>();
                     do
                     {
                         message = reader.ReadLine();
                         Console.WriteLine("Received: " + message);
-                        messageComplete += message;
+                        messageList.Add(message);
                     } while (message != "");
                     
-                    var temp = new HttpPackage(messageComplete);
+                    var package = new HttpPackage(messageList);
                     Console.WriteLine("\n###########################################\n");
                     
 
-                    if (temp.ContentLength != 0)
+                    if (package.ContentLength != 0)
                     {
                         string msg = "";
 
-                        for(int i = 0; i < temp.ContentLength; i++)
+                        for(int i = 0; i < package.ContentLength; i++)
                         {
                             msg += (char) reader.Read();
                         }
-                        temp.Payload = msg;
+                        package.Payload = msg;
                     }
 
-                    Console.WriteLine(temp.GetInfo());
+                    var manager = new MessageManager(package);
+                    manager.SaveMessage();
+
+
+                    Console.WriteLine(package.GetInfo().ToString());
+                    string dictionaryString = "{";  
+                    foreach(KeyValuePair < string, string > keyValues in package.GetInfo()) {  
+                        dictionaryString += keyValues.Key + " : " + keyValues.Value + ", ";  
+                    }  
+                    Console.WriteLine(dictionaryString.TrimEnd(',', ' ') + "}");
                     socket.Close();
                 }
                 catch (Exception exc)
