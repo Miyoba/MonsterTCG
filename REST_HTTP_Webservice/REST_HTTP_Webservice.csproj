@@ -37,6 +37,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="ServerClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpPackage.cs" />
@@ -53,8 +54,6 @@
       <HintPath>..\MonsterTCG\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

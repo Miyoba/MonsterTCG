@@ -20,7 +20,9 @@ namespace REST_HTTP_Webservice
 
         public HttpPackage(List<string> messages)
         {
-
+            Request = null;
+            Path = null;
+            Version = null;
             ContentLength = 0;
 
             foreach (var message in messages)
@@ -76,26 +78,89 @@ namespace REST_HTTP_Webservice
 
         public string GetOk(string response)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("OK Response: "+response+"\r\n");
+            var erg = "";
+            erg += Version + " 200 OK\r\n"+
+                   "Server: MyServer\r\n"+
+                   "Content-Type: text/plain\r\n"+
+                   "Content-Length: "+response.Length+"\r\n"+
+                   "\r\n"+
+                   response;
+            return erg;
         }
 
         public string GetCreated(string response)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("CREATED Response: "+response+"\r\n");
+            var erg = "";
+            erg += Version + " 201 Created\r\n"+
+                   "Server: MyServer\r\n"+
+                   "Content-Type: text/plain;\r\n"+
+                   "Content-Length: "+response.Length+"\r\n"+
+                   "\r\n"+
+                   response;
+            return erg;
         }
 
         public string GetNoContent(string response)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("NO CONTENT Response: "+response+"\r\n");
+            var erg = "";
+            erg += Version + " 204 No Content\r\n"+
+                   "Server: MyServer\r\n"+
+                   "Content-Type: text/plain\r\n"+
+                   "Content-Length: "+response.Length+"\r\n"+
+                   "\r\n"+
+                   response;
+            return erg;
         }
 
         public string GetBadRequest(string response)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("BAD REQUEST Response: "+response+"\r\n");
+            var erg = "";
+            erg += Version + " 400 Bad Request\r\n"+
+                   "Server: MyServer\r\n"+
+                   "Content-Type: text/plain\r\n"+
+                   "Content-Length: "+response.Length+"\r\n"+
+                   "\r\n"+
+                   response;
+            return erg;
         }
         public string GetNotFound(string response)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("NOT FOUND Response: "+response+"\r\n");
+            var erg = "";
+            erg += Version + " 404 Not Found\r\n"+
+                   "Server: MyServer\r\n"+
+                   "Content-Type: text/plain\r\n"+
+                   "Content-Length: "+response.Length+"\r\n"+
+                   "\r\n"+
+                   response;
+            return erg;
+        }
+
+        public bool CheckRequest()
+        {
+            if (Version != null && Request != null && Path != null)
+            {
+                if (string.Equals(Request, "GET") || string.Equals(Request, "POST") || string.Equals(Request, "PUT") ||
+                    string.Equals(Request, "DELETE"))
+                {
+                    string[] separator = {"/"};
+                    string[] words = Path.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+
+                    if (words.Length > 0 && words.Length < 3)
+                    {
+                        if (string.Equals(words[0], "messages"))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
     }

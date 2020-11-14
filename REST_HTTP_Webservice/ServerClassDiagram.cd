@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="REST_HTTP_Webservice.HttpPackage">
+    <Position X="2" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAEAAAAAAQAAICBAEQAAAAAAAAiFAAAAEQAAAAAAA=</HashCode>
+      <FileName>HttpPackage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="REST_HTTP_Webservice.MessageManager">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAEAQAAAAABAQAABAAAAKAAAAAAAAAACAAAA=</HashCode>
+      <FileName>MessageManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Package" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="REST_HTTP_Webservice.Server">
+    <Position X="7" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Server.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
