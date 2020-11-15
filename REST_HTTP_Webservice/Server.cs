@@ -27,37 +27,22 @@ namespace REST_HTTP_Webservice
                     var socket = await listener.AcceptTcpClientAsync();
                     using var writer = new StreamWriter(socket.GetStream()/*,Encoding.UTF8*/) {AutoFlush = true};
                     using var reader = new StreamReader(socket.GetStream()/*,Encoding.UTF8*/);
-                    string message;
-                    var messageList = new List<string>();
-                    do
-                    {
-                        message = reader.ReadLine();
-                        Console.WriteLine("Received: " + message);
-                        messageList.Add(message);
-                    } while (message != "");
-
-                    var package = new HttpPackage(messageList);
+                    var package = new RequestContext(reader);
                     Console.WriteLine("\n###########################################\n");
 
-                    if (package.ContentLength != 0)
+                    Console.WriteLine("Analyzed Information:\r\n");
+                    foreach(KeyValuePair<string, string> entry in package.Information)
                     {
-                        string msg = "";
-
-                        for (int i = 0; i < package.ContentLength; i++)
-                        {
-                            msg += (char) reader.Read();
-                        }
-                        package.Payload = msg;
+                        Console.WriteLine(entry.Key+": "+entry.Value);
                     }
-
+                    Console.WriteLine("\n###########################################\n");
                     if (package.CheckRequest()){ 
                         var manager = new MessageManager(package);
                         await writer.WriteAsync(manager.ProcessRequest());
                     }
                     else
-                    {
                         writer.Write(package.GetBadRequest("Bad request!"));
-                    }
+
                     if(socket.Connected)
                         socket.Close();
                 }

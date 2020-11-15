@@ -12,9 +12,9 @@ namespace REST_HTTP_Webservice
 {
     public class MessageManager
     {
-        public HttpPackage Package { get; set; }
+        public IRequestContext Package { get; set; }
 
-        public MessageManager(HttpPackage package)
+        public MessageManager(IRequestContext package)
         {
             Package = package;
             var directoryInfo = Directory.GetParent(Environment.CurrentDirectory).Parent;
@@ -149,9 +149,10 @@ namespace REST_HTTP_Webservice
                     }
                 }
             }    
-            catch (Exception Ex)    
-            {    
-                Console.WriteLine(Ex.ToString());    
+            catch (Exception Ex)
+            {
+                Console.WriteLine(Ex.ToString());
+                return Package.GetBadRequest("Internal Error!");
             }
             return Package.GetCreated(""+messageId);
         }
@@ -180,7 +181,8 @@ namespace REST_HTTP_Webservice
             }    
             catch (Exception Ex)    
             {    
-                Console.WriteLine(Ex.ToString());    
+                Console.WriteLine(Ex.ToString());
+                return Package.GetBadRequest("Internal Error!");
             }
             return Package.GetCreated("Message Changed!");
         }

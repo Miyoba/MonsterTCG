@@ -40,7 +40,8 @@
     <None Include="ServerClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpPackage.cs" />
+    <Compile Include="IRequestContext.cs" />
+    <Compile Include="RequestContext.cs" />
     <Compile Include="MessageManager.cs" />
     <Compile Include="Server.cs" />
   </ItemGroup>
