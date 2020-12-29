@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="REST_HTTP_Webservice.RequestContext">
-    <Position X="6.75" Y="4" Width="1.5" />
+    <Position X="0.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IIAAEAAAAAAQAAICBAEQAAAAAAAAiBAAAAEQAAAAAAA=</HashCode>
       <FileName>RequestContext.cs</FileName>
@@ -9,7 +9,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="REST_HTTP_Webservice.MessageManager">
-    <Position X="2.25" Y="5.5" Width="1.5" />
+    <Position X="6" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAEAQAAAAABAQAABAAAAKAAAAAAAAAACAAAA=</HashCode>
       <FileName>MessageManager.cs</FileName>
@@ -19,18 +19,94 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="REST_HTTP_Webservice.Server">
-    <Position X="2.25" Y="4" Width="1.5" />
+    <Position X="9" Y="9.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAACABAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Server.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="REST_HTTP_Webservice.TcpHandler">
+    <Position X="7" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACAAAAAAAAAAIAAAAAAAACAAYAAAAgAAAAQ=</HashCode>
+      <FileName>TcpHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="REST_HTTP_Webservice.ClientHandler">
+    <Position X="2.75" Y="9.75" Width="1.5" />
+    <AssociationLine Name="RequestManager" Type="REST_HTTP_Webservice.MessageManager" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="9.938" />
+        <Point X="4.625" Y="9.938" />
+        <Point X="4.625" Y="7.763" />
+        <Point X="6" Y="7.763" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAQABAAAAAAAAAAEAAAAAAAAAAAgAAEAAAgAAAAAAA=</HashCode>
+      <FileName>ClientHandler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Request" />
+      <Property Name="RequestManager" />
+      <Property Name="TcpHandler" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="REST_HTTP_Webservice.TextResponse">
+    <Position X="1.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>TextResponse.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="REST_HTTP_Webservice.JsonResponse">
+    <Position X="3.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>JsonResponse.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="REST_HTTP_Webservice.IRequestContext">
-    <Position X="4.75" Y="4" Width="1.5" />
+    <Position X="2.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IIAAEAAAAAAQAAICBAEQAAAAAAAAiBAAAAEQAAAAAAA=</HashCode>
       <FileName>IRequestContext.cs</FileName>
     </TypeIdentifier>
   </Interface>
+  <Interface Name="REST_HTTP_Webservice.ITcpHandler">
+    <Position X="5.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACAAAAAAAAAAIAAAAAAAACAAYAAAAAAAAAA=</HashCode>
+      <FileName>ITcpHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="REST_HTTP_Webservice.IClientHandler">
+    <Position X="0.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>IClientHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="REST_HTTP_Webservice.IResponse">
+    <Position X="2.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>IResponse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+  </Interface>
+  <Enum Name="REST_HTTP_Webservice.StatusCodesEnum">
+    <Position X="5.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAEAAAQAACABAAAAAAA=</HashCode>
+      <FileName>StatusCodesEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

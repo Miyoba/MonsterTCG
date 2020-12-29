@@ -40,10 +40,18 @@
     <None Include="ServerClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientHandler.cs" />
+    <Compile Include="IClientHandler.cs" />
     <Compile Include="IRequestContext.cs" />
+    <Compile Include="IResponse.cs" />
+    <Compile Include="ITcpHandler.cs" />
+    <Compile Include="JsonResponse.cs" />
     <Compile Include="RequestContext.cs" />
     <Compile Include="MessageManager.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="StatusCodesEnum.cs" />
+    <Compile Include="TcpHandler.cs" />
+    <Compile Include="TextResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

@@ -7,50 +7,61 @@ using System.Net.Mime;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace REST_HTTP_Webservice
 {
     class Server
     {
-        static async Task Main(string[] args)
+        //Amount of clients that can connect at the same time to the server
+        static readonly SemaphoreSlim ConcurrentConnections = new SemaphoreSlim(2);
+
+        public static void Main()
         {
-            TcpListener listener = new TcpListener(IPAddress.Loopback, 8000);
-            listener.Start(5);
 
-            Console.CancelKeyPress += (sender, e) => Environment.Exit(0);
+            //Preparing the Threads
+            TcpHandler tcpHandler = null;
+            var tasks = new List<Task>();
 
-            while (true)
+            try
             {
-                try
-                {
-                    var socket = await listener.AcceptTcpClientAsync();
-                    using var writer = new StreamWriter(socket.GetStream()/*,Encoding.UTF8*/) {AutoFlush = true};
-                    using var reader = new StreamReader(socket.GetStream()/*,Encoding.UTF8*/);
-                    var package = new RequestContext(reader);
-                    Console.WriteLine("\n###########################################\n");
+                //Using standard Port 8000 and allowing 5 clients in the queue
+                tcpHandler = new TcpHandler();
 
-                    Console.WriteLine("Analyzed Information:\r\n");
-                    foreach(KeyValuePair<string, string> entry in package.Information)
-                    {
-                        Console.WriteLine(entry.Key+": "+entry.Value);
-                    }
-                    Console.WriteLine("\n###########################################\n");
-                    if (package.CheckRequest()){ 
-                        var manager = new MessageManager(package);
-                        await writer.WriteAsync(manager.ProcessRequest());
-                    }
-                    else
-                        writer.Write(package.GetBadRequest("Bad request!"));
-
-                    if(socket.Connected)
-                        socket.Close();
-                }
-                catch (Exception exc)
+                while (true)
                 {
-                    Console.WriteLine("error occurred: " + exc.Message);
+                    //Starting the Threads
+                    ConcurrentConnections.Wait();
+                    tasks.Add(Task.Run(() => ReceiveClient(tcpHandler)));
+
                 }
             }
+            //Hopefully no Exceptions here
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            finally
+            {
+                //When finished stop the Server and set all threads on hold
+                tcpHandler?.Stop();
+                Task.WaitAll(tasks.ToArray());
+            }
+        }
+        /*
+         * The Code that should be realized via Thread.
+         * In my case the client connection and Request and Response Handling
+         */
+        private static void ReceiveClient(ITcpHandler tcpHandler)
+        {
+            ClientHandler clientHandler = new ClientHandler(tcpHandler);
+            IResponse response = clientHandler.ExecuteRequest();
+            clientHandler.SendResponse(response);
+            clientHandler.CloseClient();
+            ConcurrentConnections.Release();
         }
     }
 }
