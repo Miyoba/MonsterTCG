@@ -5,48 +5,22 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class MonsterTCGDB
+    public class MonsterTcgdb
     {
-        public MonsterTCGDB(string hostname, string pass, string username)
+        public MonsterTcgdb(string hostname, string pass, string username, string password)
         {
-            throw new System.NotImplementedException();
+            _hostname = hostname;
+            _username = username;
+            _password = password;
         }
 
-        public string Hostname
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        private string _hostname;
 
-        public string Password
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        private string _password;
 
-        public string Username
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        private string _username;
 
         public void connect()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Dictionary<string, int> getUserCredentials(string username)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public User getUserInformation(string username)
         {
             throw new System.NotImplementedException();
         }

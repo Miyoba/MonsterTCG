@@ -1,78 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MonsterTCG
 {
-    public class Server
+    class Server
     {
-        public Server(string hostname, string username, string password, string dbName, int port)
-        {
-            throw new System.NotImplementedException();
-        }
+        //Amount of clients that can connect at the same time to the server
+        static readonly SemaphoreSlim ConcurrentConnections = new SemaphoreSlim(2);
 
-        public System.Collections.Generic.Dictionary<string, int> Credentials
+        public static void Main()
         {
-            get => default;
-            set
+
+            //Preparing the Threads
+            TcpHandler tcpHandler = null;
+            var tasks = new List<Task>();
+
+            try
             {
+                //Using Port 10001 and allowing the default 5 clients in the queue
+                tcpHandler = new TcpHandler(10001);
+
+                while (true)
+                {
+                    //Starting the Threads
+                    ConcurrentConnections.Wait();
+                    tasks.Add(Task.Run(() => ReceiveClient(tcpHandler)));
+
+                }
+            }
+            //Hopefully no Exceptions here
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            finally
+            {
+                //When finished stop the Server and set all threads on hold
+                tcpHandler?.Stop();
+                Task.WaitAll(tasks.ToArray());
             }
         }
-
-        public MonsterTCGDB Db
+        /*
+         * The Code that should be realized via Thread.
+         * In my case the client connection and Request and Response Handling
+         */
+        private static void ReceiveClient(ITcpHandler tcpHandler)
         {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Store Store
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Battle Game
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        /// <param name="username">The Username of the User</param>
-        public Boolean createUser(string username, int passwordHash)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Boolean connectDB(string hostname, string username, string password, string dbName, int port)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void createGame(List<User> users, List<CardDeck> decks)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public User loginUser(string username, int passwordHash)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Dictionary<string, int> getAllUserCredentials()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Boolean updateUser(User user)
-        {
-            throw new System.NotImplementedException();
+            ClientHandler clientHandler = new ClientHandler(tcpHandler);
+            clientHandler.ExecuteRequest();
+            clientHandler.CloseClient();
+            ConcurrentConnections.Release();
         }
     }
 }

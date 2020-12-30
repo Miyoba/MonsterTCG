@@ -5,13 +5,9 @@ using System.Text;
 
 namespace MonsterTCG
 {
-    public class Program
+    public interface IResponseManager
     {
-
-        static void Main(string[] args)
-        {
-
-        }
-
+        IResponse Response { get; set; }
+        string ProcessResponse();
     }
 }

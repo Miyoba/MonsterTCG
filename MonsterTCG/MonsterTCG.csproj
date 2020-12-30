@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -43,7 +45,7 @@
     <Compile Include="CardDeck.cs" />
     <Compile Include="CardPackage.cs" />
     <Compile Include="CardType.cs" />
-    <Compile Include="Client.cs" />
+    <Compile Include="ClientHandler.cs" />
     <Compile Include="Dragon.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="ElementType.cs" />
@@ -52,24 +54,37 @@
     <Compile Include="Fireelf.cs" />
     <Compile Include="Goblin.cs" />
     <Compile Include="ICardPackage.cs" />
+    <Compile Include="IClientHandler.cs" />
     <Compile Include="IElement.cs" />
+    <Compile Include="IContextManager.cs" />
+    <Compile Include="IResponse.cs" />
+    <Compile Include="IResponseManager.cs" />
+    <Compile Include="ITcpHandler.cs" />
+    <Compile Include="JsonResponse.cs" />
     <Compile Include="Knight.cs" />
     <Compile Include="Kraken.cs" />
+    <Compile Include="RequestManager.cs" />
     <Compile Include="Normal.cs" />
     <Compile Include="Orc.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="MatchingRoom.cs" />
     <Compile Include="MonsterCard.cs" />
     <Compile Include="MonsterTCG_DB.cs" />
     <Compile Include="Monstertyp.cs" />
+    <Compile Include="ContextManager.cs" />
+    <Compile Include="ResponseManager.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="SpellCard.cs" />
     <Compile Include="Stack.cs" />
+    <Compile Include="StatusCodesEnum.cs" />
     <Compile Include="Store.cs" />
+    <Compile Include="TcpHandler.cs" />
+    <Compile Include="TextResponse.cs" />
     <Compile Include="TradeCards.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Water.cs" />
     <Compile Include="Wizard.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
