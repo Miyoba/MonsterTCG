@@ -31,7 +31,7 @@ namespace MonsterTCG
 
         public void SendResponse(IResponse response)
         {
-            ResponseManager = new ResponseManager(response);
+            ResponseManager = new ResponseManager(response, "MonsterTCG-Server");
             using StreamWriter writer = new StreamWriter(TcpHandler.GetStream()) { AutoFlush = true };
             writer.WriteLine(ResponseManager.ProcessResponse());
         }

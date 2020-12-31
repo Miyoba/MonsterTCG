@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS mtcg;
+
+\c mtcg
+
 CREATE TABLE IF NOT EXISTS credentials (
 username VARCHAR(255) PRIMARY KEY, 
 password VARCHAR(255) NOT NULL, 

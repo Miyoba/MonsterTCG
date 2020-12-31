@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MonsterTCG
 {
@@ -18,16 +19,7 @@ namespace MonsterTCG
         public RequestManager(IContextManager context)
         {
             Context = context;
-            var directoryInfo = Directory.GetParent(Environment.CurrentDirectory).Parent;
-            if (directoryInfo != null)
-            {
-                var dir = directoryInfo.FullName + "\\messages";
-                // If directory does not exist, create it
-                if (!Directory.Exists(dir))
-                {
-                    Directory.CreateDirectory(dir);
-                }
-            }
+            Db = new MonsterTcgdb();
         }
 
         public IResponse ProcessRequest()
@@ -110,18 +102,43 @@ namespace MonsterTCG
                         return new TextResponse(StatusCodesEnum.BadRequest, "Unknown Request!");
                 }
             }
-
-            throw new System.NotImplementedException();
+            return new TextResponse(StatusCodesEnum.BadRequest, "Invalid Command!");
         }
 
         public IResponse CreateUser()
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                User user = JsonConvert.DeserializeObject<User>(Context.Payload);
+                bool erg = Db.RegisterUser(user.Username, user.Password);
+
+                if (erg)
+                    return new TextResponse(StatusCodesEnum.Created, "User successfully created!");
+                return new TextResponse(StatusCodesEnum.Conflict, "Username already taken. User could not be created!");
+            }
+            catch (Newtonsoft.Json.JsonSerializationException)
+            {
+                return new TextResponse(StatusCodesEnum.InternalServerError, "Could not deserialize json data!");
+            }
         }
 
         public IResponse LoginUser()
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                User user = JsonConvert.DeserializeObject<User>(Context.Payload);
+                string token = Db.LoginUser(user.Username, user.Password);
+            
+                if(token is null)
+                    return new TextResponse(StatusCodesEnum.NotFound,"User or password is incorrect!");
+                return new TextResponse(StatusCodesEnum.Ok,token);
+            }
+            catch (Newtonsoft.Json.JsonSerializationException)
+            {
+                return new TextResponse(StatusCodesEnum.InternalServerError, "Could not deserialize json data!");
+            }
+
+            
         }
 
         public IResponse CreatePackageStacked()

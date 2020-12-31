@@ -2,49 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MonsterTCG
 {
     public class User
     {
-        public string Username
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("Username")]
+        public string Username { get; set; }
 
-        public int Coins
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("Password")]
+        public string Password { get; set; }
 
-        public Stack Stack
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("Name")]
+        public string Name { get; set; }
 
-        public CardDeck SelectedDeck
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("Coins")]
+        public int Coins { get; set; }
 
-        public List<BattleLog> Logs
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("Bio")]
+        public string Bio { get; set; }
+
+        [JsonProperty("Image")]
+        public string Image { get; set; }
+
+        public Stack Stack { get; set; }
+        public CardDeck SelectedDeck { get; set; }
+        public List<BattleLog> Logs { get; set; }
     }
 }

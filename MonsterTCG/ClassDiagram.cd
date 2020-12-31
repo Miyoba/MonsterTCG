@@ -35,13 +35,13 @@
     <Position X="23.5" Y="5" Width="1.5" />
     <AssociationLine Name="SelectedDeck" Type="MonsterTCG.CardDeck" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="24.75" Y="6.488" />
+        <Point X="24.75" Y="7.257" />
         <Point X="24.75" Y="8" />
         <Point X="25.75" Y="8" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAQAAAAAAAAAQAACAAAgACAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAQAAAAAAAACQAACAQAgACAABACAAAAAAAAAAA=</HashCode>
       <FileName>User.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -81,9 +81,9 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MonsterTCG.MonsterTcgdb">
-    <Position X="13.25" Y="2.75" Width="3.25" />
+    <Position X="13.75" Y="2.75" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAIQAAAAAAA=</HashCode>
+      <HashCode>MEAAIAAAAIACAAIAAAIAAAAAAAAECIAAACAAACARAAE=</HashCode>
       <FileName>MonsterTCG_DB.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -228,14 +228,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MonsterTCG.Server">
-    <Position X="9.75" Y="2.75" Width="1.5" />
+    <Position X="11.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACABAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Server.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MonsterTCG.TcpHandler">
-    <Position X="4.75" Y="2.5" Width="1.5" />
+    <Position X="4.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAACAAAAAAAAAAIAAAAAAAACAAYAAAAgAAAAQ=</HashCode>
       <FileName>TcpHandler.cs</FileName>
@@ -243,7 +243,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MonsterTCG.JsonResponse">
-    <Position X="3.75" Y="12" Width="1.5" />
+    <Position X="4.5" Y="12" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>JsonResponse.cs</FileName>
@@ -254,7 +254,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MonsterTCG.TextResponse">
-    <Position X="3.75" Y="10" Width="1.5" />
+    <Position X="4.5" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>TextResponse.cs</FileName>
@@ -265,17 +265,18 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MonsterTCG.RequestManager">
-    <Position X="11.75" Y="6.5" Width="1.5" />
+    <Position X="11.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EEAAIAAAA4ACAAAAEBIAIAAAAAAEABMAAAAAICAQAAE=</HashCode>
       <FileName>RequestManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Context" />
+      <Property Name="Db" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MonsterTCG.ContextManager">
-    <Position X="4.75" Y="5.75" Width="1.5" />
+    <Position X="8.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAAEAAAAAAAAAIAAAAQAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>ContextManager.cs</FileName>
@@ -283,7 +284,22 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MonsterTCG.ClientHandler">
-    <Position X="9" Y="6.5" Width="1.5" />
+    <Position X="6" Y="7.5" Width="1.5" />
+    <AssociationLine Name="RequestManager" Type="MonsterTCG.RequestManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.5" Y="8.625" />
+        <Point X="10.471" Y="8.625" />
+        <Point X="10.471" Y="8.625" />
+        <Point X="11.5" Y="8.625" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="ResponseManager" Type="MonsterTCG.IResponseManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.688" Y="9.18" />
+        <Point X="6.688" Y="9.899" />
+        <Point X="8.75" Y="9.899" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAQABAAAgAAAIAAEAAAAAAAAAAAAAAEAAAgAAAAAAA=</HashCode>
       <FileName>ClientHandler.cs</FileName>
@@ -292,13 +308,14 @@
       <Property Name="TcpHandler" />
       <Property Name="Context" />
       <Property Name="RequestManager" />
+      <Property Name="ResponseManager" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MonsterTCG.ResponseManager">
-    <Position X="8" Y="10.75" Width="1.5" />
+    <Position X="8.75" Y="11.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAABAAAIABAEAAAAAAAAAAAAAAAEAAgAAAAA=</HashCode>
+      <HashCode>QAACEAAAAABAAIIABEEAAIAAAAAAAAAAAAEAAgAAAAA=</HashCode>
       <FileName>ResponseManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -350,39 +367,42 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="MonsterTCG.ITcpHandler">
-    <Position X="6.5" Y="3" Width="1.5" />
+    <Position X="6.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAACAAAAAAAAAAIAAAAAAAACAAYAAAAAAAAAA=</HashCode>
       <FileName>ITcpHandler.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MonsterTCG.IContextManager">
-    <Position X="6.5" Y="6" Width="1.5" />
+    <Position X="8.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAAEAAAAAAAAAIAAAAQAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>IContextManager.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MonsterTCG.IResponse">
-    <Position X="5.5" Y="11.25" Width="1.5" />
+    <Position X="6.25" Y="11.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>IResponse.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MonsterTCG.IClientHandler">
-    <Position X="9.75" Y="4.75" Width="1.5" />
+    <Position X="4.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>IClientHandler.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MonsterTCG.IResponseManager">
-    <Position X="9.75" Y="11" Width="1.5" />
+    <Position X="8.75" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>IResponseManager.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Response" />
+    </ShowAsAssociation>
   </Interface>
   <Enum Name="MonsterTCG.EnumElementType">
     <Position X="23.25" Y="9.5" Width="1.5" />
@@ -399,9 +419,9 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="MonsterTCG.StatusCodesEnum">
-    <Position X="1" Y="11" Width="1.5" />
+    <Position X="2.25" Y="11" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAEAAAQAACABAAAAAAA=</HashCode>
+      <HashCode>CAEAAAAIAAAEAAAgAAAAAAAAAAEAAAQAACABAAAAAAA=</HashCode>
       <FileName>StatusCodesEnum.cs</FileName>
     </TypeIdentifier>
   </Enum>

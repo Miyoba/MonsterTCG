@@ -11,6 +11,10 @@ namespace MonsterTCG
         BadRequest,
         NoContent,
         Ok,
-        NotFound
+        NotFound,
+        Conflict,
+        PaymentRequired,
+        Forbidden,
+        InternalServerError
     }
 }
