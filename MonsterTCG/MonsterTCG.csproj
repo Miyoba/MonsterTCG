@@ -61,6 +61,7 @@
     <Compile Include="IResponse.cs" />
     <Compile Include="IResponseManager.cs" />
     <Compile Include="ITcpHandler.cs" />
+    <Compile Include="JsonCard.cs" />
     <Compile Include="JsonResponse.cs" />
     <Compile Include="Knight.cs" />
     <Compile Include="Kraken.cs" />

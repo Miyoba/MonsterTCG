@@ -3,7 +3,7 @@
   <Class Name="MonsterTCG.MonsterCard" HideInheritanceLine="true">
     <Position X="25.75" Y="12" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAgAAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAACAAAgAAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MonsterCard.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -11,7 +11,7 @@
   <Class Name="MonsterTCG.SpellCard">
     <Position X="27.75" Y="12" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAgAAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAACAAAgAAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SpellCard.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.21" />
@@ -315,7 +315,7 @@
   <Class Name="MonsterTCG.ResponseManager">
     <Position X="8.75" Y="11.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAACEAAAAABAAIIABEEAAIAAAAAAAAAAAAEAAgAAAAA=</HashCode>
+      <HashCode>QAACEAAAAAFAAIIABEEAAIAAAAAAAAAAAAEAAgAAAAA=</HashCode>
       <FileName>ResponseManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -323,17 +323,17 @@
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="MonsterTCG.ICard">
-    <Position X="26.25" Y="10" Width="1.5" />
-    <AssociationLine Name="Element" Type="MonsterTCG.IElement" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="26.25" Y="11.25" />
-        <Point X="24.25" Y="11.25" />
-        <Point X="24.25" Y="11.5" />
-      </Path>
-    </AssociationLine>
+  <Class Name="MonsterTCG.JsonCard">
+    <Position X="33" Y="12" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAgAAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAACAAAAAAAAAIAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JsonCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="MonsterTCG.ICard">
+    <Position X="26.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAACAAAgAAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Card.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -342,15 +342,6 @@
   </Interface>
   <Interface Name="MonsterTCG.ICardPackage">
     <Position X="30" Y="9.75" Width="1.75" />
-    <AssociationLine Name="Content" Type="MonsterTCG.ICard" ManuallyRouted="true" FixedFromPoint="true">
-      <Path>
-        <Point X="30" Y="10.75" />
-        <Point X="27.75" Y="10.758" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.336" Y="0.058" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAgIAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ICardPackage.cs</FileName>
@@ -421,7 +412,7 @@
   <Enum Name="MonsterTCG.StatusCodesEnum">
     <Position X="2.25" Y="11" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAEAAAAIAAAEAAAgAAAAAAAAAAEAAAQAACABAAAAAAA=</HashCode>
+      <HashCode>CAEAAAAIAAAEAAAgAAEAAAAAAAEAAAQAACABAAAAAAA=</HashCode>
       <FileName>StatusCodesEnum.cs</FileName>
     </TypeIdentifier>
   </Enum>

@@ -15,6 +15,7 @@ namespace MonsterTCG
         Conflict,
         PaymentRequired,
         Forbidden,
-        InternalServerError
+        InternalServerError,
+        Unauthorized
     }
 }

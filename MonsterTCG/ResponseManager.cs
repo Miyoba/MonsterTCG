@@ -37,6 +37,8 @@ namespace MonsterTCG
                     return GetForbidden();
                 case StatusCodesEnum.InternalServerError:
                     return GetInternalServerError();
+                case StatusCodesEnum.Unauthorized:
+                    return GetUnauthorized();
                 default:
                     return GetBadRequest();
             }
@@ -150,6 +152,19 @@ namespace MonsterTCG
             Console.WriteLine("INTERNAL SERVER ERROR Response\r\n");
             var erg = "";
             erg += "HTTP/1.1 500 Internal Server Error\r\n"+
+                   "Server: "+_serverName+"\r\n"+
+                   "Content-Type: "+Response.ContentType+"\r\n"+
+                   "Content-Length: "+Response.Content.Length+"\r\n"+
+                   "\r\n"+
+                   Response.Content;
+            return erg;
+        }
+
+        private string GetUnauthorized()
+        {
+            Console.WriteLine("UNAUTHORIZED Response\r\n");
+            var erg = "";
+            erg += "HTTP/1.1 401 Unauthorized\r\n"+
                    "Server: "+_serverName+"\r\n"+
                    "Content-Type: "+Response.ContentType+"\r\n"+
                    "Content-Length: "+Response.Content.Length+"\r\n"+

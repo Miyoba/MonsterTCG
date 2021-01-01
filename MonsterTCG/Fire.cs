@@ -7,7 +7,7 @@ namespace MonsterTCG
 {
     public class Fire:IElement
     {
-        public int GetDamage(ICard enemy, int damage)
+        public double GetDamage(ICard enemy, double damage)
         {
             if (enemy.Element is Normal) 
                 return damage * 2;
@@ -16,7 +16,7 @@ namespace MonsterTCG
                 return damage;
 
             if (enemy.Element is Water)
-                return (int)damage/2;
+                return damage/2;
 
             throw new ArgumentException("Unknown element encountered while in damage calculation");
         }

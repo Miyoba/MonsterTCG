@@ -7,13 +7,13 @@ namespace MonsterTCG
 {
     public class Normal:IElement
     {
-        public int GetDamage(ICard enemy, int damage)
+        public double GetDamage(ICard enemy, double damage)
         {
             if (enemy.Element is Normal) 
                 return damage;
 
             if(enemy.Element is Fire) 
-                return (int)damage/2;
+                return damage/2;
 
             if (enemy.Element is Water)
                 return damage*2;

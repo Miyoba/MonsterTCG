@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -144,12 +145,32 @@ namespace MonsterTCG
         public IResponse CreatePackageStacked()
         {
             //Done by the admin
-            throw new System.NotImplementedException();
+            string token;
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            if(!token.Equals("Basic admin-mtcgToken"))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            if(Db.CreatePackage(Context.Payload))
+                return new TextResponse(StatusCodesEnum.Created,"Package successfully created!"); 
+            return new TextResponse(StatusCodesEnum.InternalServerError, "Database couldn't save package!");
         }
 
         public IResponse BuyPackage()
         {
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            if(Db.GetUsernameFromToken(token) == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            var jsonCards = Db.BuyPackage(token);
+            if (jsonCards != null)
+                return new JsonResponse(StatusCodesEnum.Ok, jsonCards);
+            return new TextResponse(StatusCodesEnum.PaymentRequired, "Not enough coins or packages left!");
         }
 
         public IResponse CreatePackageRandom()
@@ -160,7 +181,18 @@ namespace MonsterTCG
 
         public IResponse ShowOwnedCards()
         {
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            if(Db.GetUsernameFromToken(token) == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            var jsonCards = Db.ShowCards(token);
+            if (jsonCards != null)
+                return new JsonResponse(StatusCodesEnum.Ok, JsonConvert.SerializeObject(jsonCards));
+            return new TextResponse(StatusCodesEnum.NotFound, "No cards found!");
         }
 
         public IResponse ShowDeck()

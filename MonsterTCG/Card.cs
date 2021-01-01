@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MonsterTCG
 {
 
     public interface ICard
     {
-        int Damage { get; set; }
+        string Id { get; set; }
+        double Damage { get; set; }
         IElement Element { get; set; }
         string Name { get; set; }
-        int GetDamage(ICard enemy);
+        double GetDamage(ICard enemy);
     }
 }

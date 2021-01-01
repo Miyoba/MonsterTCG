@@ -7,11 +7,14 @@ namespace MonsterTCG
 {
     public class Dragon:MonsterCard
     {
-        public Dragon(string name, int damage, EnumElementType element) : base(name, damage, element)
+        public Dragon(string name, double damage, EnumElementType element) : base(name, damage, element)
         {
         }
 
-        public override int GetDamage(ICard enemy)
+        public Dragon(string id, string name, double damage, EnumElementType element) : base(id, name, damage, element)
+        {
+        }
+        public override double GetDamage(ICard enemy)
         {
             if (enemy is Fireelf)
                 return 0;

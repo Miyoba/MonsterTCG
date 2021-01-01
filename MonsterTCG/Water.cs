@@ -7,10 +7,10 @@ namespace MonsterTCG
 {
     public class Water:IElement
     {
-        public int GetDamage(ICard enemy, int damage)
+        public double GetDamage(ICard enemy, double damage)
         {
             if (enemy.Element is Normal) 
-                return (int)damage / 2;
+                return damage / 2;
             
             if(enemy.Element is Fire) 
                 return damage * 2;
