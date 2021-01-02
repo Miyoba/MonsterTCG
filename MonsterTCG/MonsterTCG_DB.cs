@@ -221,14 +221,98 @@ namespace MonsterTCG
             }
         }
 
-        public List<ICard> ShowDeck()
+        public List<string> ShowDeck(string username)
         {
-            throw new NotImplementedException();
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            var cmd = new NpgsqlCommand("Select card_id from player_deck where username = @username", conn);
+            cmd.Parameters.AddWithValue("username", username);
+            cmd.Prepare();
+
+            try
+            {
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    List<string> cards = new List<string>();
+                    while (reader.Read())
+                    {
+                        var temp = (string) reader[0];
+                        cards.Add(temp);
+                    }
+                    return cards;
+                }
+                return null;
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return null;
+            }
         }
 
-        public bool ConfigureDeck()
+        public string ConfigureDeck(string username, List<string> cards)
         {
-            throw new NotImplementedException();
+            
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            List<string> checkList = new List<string>();
+            try
+            {
+                foreach (var card in cards)
+                {
+                    //Check if cards are owned
+                    var cmd = new NpgsqlCommand("Select * from player_cards where username = @username and card_id = @card_id", conn);
+                    cmd.Parameters.AddWithValue("username", username);
+                    cmd.Parameters.AddWithValue("card_id", card);
+                    cmd.Prepare();
+
+                    var reader = cmd.ExecuteReader();
+                    if (!reader.HasRows)
+                        return "Cards are not found in the users stack!";
+
+                    reader.Close();
+
+                    //Check if cards are in a trade request
+                    cmd = new NpgsqlCommand("Select * from trade where card_id = @card_id", conn);
+                    cmd.Parameters.AddWithValue("username", username);
+                    cmd.Parameters.AddWithValue("card_id", card);
+                    cmd.Prepare();
+
+                    reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                        return "Deck could not be configured since some cards are currently in a trade request!";
+
+                    reader.Close();
+                }
+
+                //Delete current deck
+                var cmd1 = new NpgsqlCommand("DELETE FROM player_deck where username = @username", conn);
+                cmd1.Parameters.AddWithValue("username", username);
+                cmd1.Prepare();
+
+                
+                cmd1.ExecuteNonQuery();
+
+
+                foreach (var card in cards)
+                {
+                    //Add cards to player_deck
+                    var cmd3 = new NpgsqlCommand("INSERT INTO player_deck (username, card_id) VALUES (@username, @card_id)", conn);
+                    cmd3.Parameters.AddWithValue("username", username);
+                    cmd3.Parameters.AddWithValue("card_id", card);
+                    cmd3.Prepare();
+
+                    cmd3.ExecuteNonQuery();
+                }
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return "Internal database error!";
+            }
+
+            return null;
         }
 
         public User ShowPlayerData()

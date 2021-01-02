@@ -18,71 +18,28 @@ namespace MonsterTCG
 
         public ICard ConvertToCard()
         {
-            if (Regex.IsMatch(Name, ".*Goblin"))
-            {
-                if (Regex.IsMatch(Name, "Fire.*"))
-                    return new Goblin(Id, Name, Damage, EnumElementType.Fire);
-                if (Regex.IsMatch(Name, "Water.*"))
-                    return new Goblin(Id, Name, Damage, EnumElementType.Water);
-                return new Goblin(Id, Name, Damage, EnumElementType.Normal);
-            }
+            EnumElementType elementType = EnumElementType.Normal;
+            if (Regex.IsMatch(Name, "Fire.*"))
+                elementType = EnumElementType.Fire;
+            if (Regex.IsMatch(Name, "Water.*"))
+                elementType = EnumElementType.Water;
+            
+            if (Regex.IsMatch(Name, ".*Goblin")) 
+                return new Goblin(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Ork"))
-            {
-                if (Regex.IsMatch(Name, "Fire.*"))
-                    return new Orc(Id, Name, Damage, EnumElementType.Fire);
-                if (Regex.IsMatch(Name, "Water.*"))
-                    return new Orc(Id, Name, Damage, EnumElementType.Water);
-                return new Orc(Id, Name, Damage, EnumElementType.Normal);
-            }
+                return new Orc(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Dragon"))
-            {
-                if (Regex.IsMatch(Name, "Fire.*"))
-                    return new Dragon(Id, Name, Damage, EnumElementType.Fire);
-                if (Regex.IsMatch(Name, "Water.*"))
-                    return new Dragon(Id, Name, Damage, EnumElementType.Water);
-                return new Dragon(Id, Name, Damage, EnumElementType.Normal);
-            }
+                return new Dragon(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Knight"))
-            {
-                if (Regex.IsMatch(Name, "Fire.*"))
-                    return new Knight(Id, Name, Damage, EnumElementType.Fire);
-                if (Regex.IsMatch(Name, "Water.*"))
-                    return new Knight(Id, Name, Damage, EnumElementType.Water);
-                return new Knight(Id, Name, Damage, EnumElementType.Normal);
-            }
+                return new Knight(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Wizard"))
-            {
-                if (Regex.IsMatch(Name, "Fire.*"))
-                    return new Wizard(Id, Name, Damage, EnumElementType.Fire);
-                if (Regex.IsMatch(Name, "Water.*"))
-                    return new Wizard(Id, Name, Damage, EnumElementType.Water);
-                return new Wizard(Id, Name, Damage, EnumElementType.Normal);
-            }
+                return new Wizard(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Elf"))
-            {
-                if (Regex.IsMatch(Name, "Fire.*"))
-                    return new Fireelf(Id, Name, Damage, EnumElementType.Fire);
-                if (Regex.IsMatch(Name, "Water.*"))
-                    return new Fireelf(Id, Name, Damage, EnumElementType.Water);
-                return new Fireelf(Id, Name, Damage, EnumElementType.Normal);
-            }
+                return new Fireelf(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Kraken"))
-            {
-                if (Regex.IsMatch(Name, "Fire.*"))
-                    return new Kraken(Id, Name, Damage, EnumElementType.Fire);
-                if (Regex.IsMatch(Name, "Water.*"))
-                    return new Kraken(Id, Name, Damage, EnumElementType.Water);
-                return new Kraken(Id, Name, Damage, EnumElementType.Normal);
-            }
+                return new Kraken(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Spell"))
-            {
-                if (Regex.IsMatch(Name, "Fire.*"))
-                    return new Knight(Id, Name, Damage, EnumElementType.Fire);
-                if (Regex.IsMatch(Name, "Water.*"))
-                    return new Knight(Id, Name, Damage, EnumElementType.Water);
-                return new Knight(Id, Name, Damage, EnumElementType.Normal);
-            }
-
+                return new Knight(Id, Name, Damage, elementType);
             return null;
         }
     }

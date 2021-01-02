@@ -13,13 +13,12 @@ id VARCHAR(255) PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
 typ VARCHAR(255) NOT NULL, 
 element VARCHAR(255) NOT NULL,
-damage INT NOT NULL
+damage DECIMAL NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS player_cards (
-id serial PRIMARY KEY,
+card_id VARCHAR(255) PRIMARY KEY,
 username VARCHAR(255) NOT NULL,
-card_id VARCHAR(255) NOT NULL,
 CONSTRAINT fk_user_cards
     FOREIGN KEY(username) REFERENCES credentials(username),
 	FOREIGN KEY(card_id) REFERENCES cards(id)
@@ -27,20 +26,12 @@ CONSTRAINT fk_user_cards
 
 CREATE TABLE IF NOT EXISTS packages (
 id serial PRIMARY KEY,
-card1 VARCHAR(255) NOT NULL,
-card2 VARCHAR(255) NOT NULL,
-card3 VARCHAR(255) NOT NULL,
-card4 VARCHAR(255) NOT NULL,
-CONSTRAINT fk_packages
-	FOREIGN KEY(card1) REFERENCES cards(id),
-	FOREIGN KEY(card2) REFERENCES cards(id),
-	FOREIGN KEY(card3) REFERENCES cards(id),
-	FOREIGN KEY(card4) REFERENCES cards(id)
+cards_json VARCHAR(2048) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS player(
-id serial PRIMARY KEY,
-username VARCHAR(255) NOT NULL,
+username VARCHAR(255) PRIMARY KEY,
+name VARCHAR(255),
 coins INT NOT NULL,
 image VARCHAR(255),
 bio VARCHAR(255),
@@ -51,33 +42,29 @@ CONSTRAINT fk_player
 
 CREATE TABLE IF NOT EXISTS trade(
 id serial PRIMARY KEY,
-card_id INT NOT NULL,
+username VARCHAR(255) NOT NULL,
+card_id VARCHAR(255) NOT NULL UNIQUE,
 typ VARCHAR(255) NOT NULL,
-damage INT NOT NULL,
+damage DECIMAL NOT NULL,
 CONSTRAINT fk_trade
-	FOREIGN KEY(card_id) REFERENCES player_cards(id)
+	FOREIGN KEY(username) REFERENCES credentials(username),
+	FOREIGN KEY(card_id) REFERENCES player_cards(card_id)
 );
 
 CREATE TABLE IF NOT EXISTS player_deck(
 id serial PRIMARY KEY,
-username INT NOT NULL,
-card1 INT NOT NULL,
-card2 INT NOT NULL,
-card3 INT NOT NULL,
-card4 INT NOT NULL,
+username VARCHAR(255) NOT NULL,
+card_id VARCHAR(255) NOT NULL,
 CONSTRAINT fk_player_deck
-	FOREIGN KEY(username) REFERENCES player(id),
-	FOREIGN KEY(card1) REFERENCES player_cards(id),
-	FOREIGN KEY(card2) REFERENCES player_cards(id),
-	FOREIGN KEY(card3) REFERENCES player_cards(id),
-	FOREIGN KEY(card4) REFERENCES player_cards(id)
+	FOREIGN KEY(username) REFERENCES player(username),
+	FOREIGN KEY(card_id) REFERENCES player_cards(card_id)
 );
 
 CREATE TABLE IF NOT EXISTS battle(
 id serial PRIMARY KEY,
-player1 INT NOT NULL,
-player2 INT,
+player1 VARCHAR(255) NOT NULL,
+player2 VARCHAR(255),
 CONSTRAINT fk_battle
-	FOREIGN KEY(player1) REFERENCES player(id),
-	FOREIGN KEY(player2) REFERENCES player(id)
+	FOREIGN KEY(player1) REFERENCES player(username),
+	FOREIGN KEY(player2) REFERENCES player(username)
 );

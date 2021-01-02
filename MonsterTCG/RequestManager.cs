@@ -37,9 +37,9 @@ namespace MonsterTCG
                             case "cards":
                                 return ShowOwnedCards();
                             case "deck":
-                                return ShowDeck();
+                                return ShowDeck(new JsonResponse(StatusCodesEnum.Ok, ""));
                             case "deck?format=plain":
-                                return ShowDeck();
+                                return ShowDeck(new TextResponse(StatusCodesEnum.Ok, ""));
                             case "users":
                                 if (words.Length == 2)
                                     return ShowUserProfile();
@@ -195,15 +195,65 @@ namespace MonsterTCG
             return new TextResponse(StatusCodesEnum.NotFound, "No cards found!");
         }
 
-        public IResponse ShowDeck()
+        public IResponse ShowDeck(IResponse type)
         {
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+            var deck = Db.ShowDeck(username);
+
+            if (deck != null)
+            {
+                if (type is JsonResponse)
+                    return new JsonResponse(StatusCodesEnum.Ok, JsonConvert.SerializeObject(deck));
+                return new JsonResponse(StatusCodesEnum.Ok, string.Join( "\n", deck));
+            }
+
+            return new TextResponse(StatusCodesEnum.NotFound, "No cards in deck found!");
         }
 
         public IResponse ConfigureDeck()
         {
-            //Has to find max. number of cards in deck
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+
+            try
+            {
+                List<string> cards = JsonConvert.DeserializeObject<List<string>>(Context.Payload);
+                if(cards.Count != 4)
+                    return new TextResponse(StatusCodesEnum.Forbidden, "A deck is only allowed to contain exactly 4 cards!");
+
+                var check = cards.Distinct().ToList();
+
+                if(check.Count != 4)
+                    return new TextResponse(StatusCodesEnum.Forbidden, "You cannot add multiple copies of the exact same card into your deck!");
+
+                string erg = Db.ConfigureDeck(username, cards);
+
+                if (erg == null)
+                    return new TextResponse(StatusCodesEnum.Created, "Deck successfully configured!");
+                if(erg.Equals("Internal database error!"))
+                    return new TextResponse(StatusCodesEnum.InternalServerError, erg);
+                return new TextResponse(StatusCodesEnum.Forbidden, erg);
+            }
+            catch (Newtonsoft.Json.JsonSerializationException)
+            {
+                return new TextResponse(StatusCodesEnum.InternalServerError, "Could not deserialize json data!");
+            }
         }
 
         public IResponse ShowUserProfile()
