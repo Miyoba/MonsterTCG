@@ -1,42 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MonsterTCG
 {
     public class TradeCards
     {
-        public CardType RequirementType
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("Id")]
+        public string Id { get; set; }
 
-        public ICard Card
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("Username")]
+        public string Username { get; set; }
 
-        public int RequirementDamage
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("CardToTrade")]
+        public string CardId { get; set; }
 
-        public EnumElementType RequirementElement
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        [JsonProperty("Type")]
+        public string RequirementType { get; set; }
+        [JsonProperty("Element")]
+        public string RequirementElement { get; set; }
+
+        [JsonProperty("MinimumDamage")]
+        public double RequirementDamage { get; set; }
+
+        
     }
 }

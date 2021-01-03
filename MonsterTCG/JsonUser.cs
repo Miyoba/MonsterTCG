@@ -6,13 +6,10 @@ using Newtonsoft.Json;
 
 namespace MonsterTCG
 {
-    public class User
+    public class JsonUser
     {
         [JsonProperty("Username")]
         public string Username { get; set; }
-
-        [JsonProperty("Password")]
-        public string Password { get; set; }
 
         [JsonProperty("Name")]
         public string Name { get; set; }
@@ -28,8 +25,5 @@ namespace MonsterTCG
 
         [JsonProperty("Elo")]
         public int Elo { get; set; }
-        public Stack Stack { get; set; }
-        public CardDeck SelectedDeck { get; set; }
-        public List<BattleLog> Logs { get; set; }
     }
 }

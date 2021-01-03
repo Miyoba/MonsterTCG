@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
@@ -315,41 +316,267 @@ namespace MonsterTCG
             return null;
         }
 
-        public User ShowPlayerData()
+        public JsonUser ShowPlayerData(string username)
         {
-            throw new NotImplementedException();
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            var cmd = new NpgsqlCommand("Select username, name, coins, image, bio, elo from player where username = @username", conn);
+            cmd.Parameters.AddWithValue("username", username);
+            cmd.Prepare();
+
+            JsonUser user = new JsonUser();
+
+            try
+            {
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    user.Username = (string)reader[0];
+                    if(!(reader[1] is DBNull))
+                        user.Name = (string) reader[1];
+                    user.Coins = (int) reader[2];
+                    if(!(reader[3] is DBNull))
+                        user.Image = (string) reader[3];
+                    if(!(reader[4] is DBNull))
+                        user.Bio = (string) reader[4];
+                    user.Elo = (int) reader[5];
+                }
+
+                return user;
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return null;
+            }
+
+            
         }
 
-        public bool EditPlayer()
+        public bool EditPlayer(JsonUser user)
         {
-            throw new NotImplementedException();
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            var cmd = new NpgsqlCommand("UPDATE player SET name = @name, bio = @bio, image = @image where username = @username", conn);
+            cmd.Parameters.AddWithValue("username", user.Username);
+            cmd.Parameters.AddWithValue("name", user.Name);
+            cmd.Parameters.AddWithValue("bio", user.Bio);
+            cmd.Parameters.AddWithValue("image", user.Image);
+            cmd.Prepare();
+
+            try
+            {
+                if (cmd.ExecuteNonQuery() != -1)
+                    return true;
+                return false;
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return false;
+            }
         }
 
-        public string ShowStats()
+        public string ShowStats(string username)
         {
-            throw new NotImplementedException();
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            var cmd = new NpgsqlCommand("Select elo from player where username = @username", conn);
+            cmd.Parameters.AddWithValue("username", username);
+            cmd.Prepare();
+
+
+            try
+            {
+                // ReSharper disable once PossibleNullReferenceException
+                var reader = (int) cmd.ExecuteScalar();
+                
+                return username +"'s Elo: "+ reader;
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return null;
+            }
         }
         public string ShowScoreboard()
         {
-            throw new NotImplementedException();
-        }
-        public bool CreateTrade()
-        {
-            throw new NotImplementedException();
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            var cmd = new NpgsqlCommand("Select username, elo from player where username != 'admin' order by elo", conn);
+            cmd.Prepare();
+
+
+            try
+            {
+                // ReSharper disable once PossibleNullReferenceException
+                var reader = cmd.ExecuteReader();
+                string scoreboard = "\tusername\t|\tElo\n";
+                scoreboard += "############################\n";
+                while (reader.Read())
+                {
+                    scoreboard += "\t"+reader[0];
+                    scoreboard += "\t|\t";
+                    scoreboard += reader[1]+"\n";
+                }
+                
+                return scoreboard;
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return null;
+            }
         }
 
-        public bool ExecuteTrade()
+        public List<TradeCards> ShowAvailableTrades()
         {
-            throw new NotImplementedException();
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            var cmd = new NpgsqlCommand("Select id, username, card_id, typ, element, damage from trade", conn);
+            cmd.Prepare();
+
+
+            try
+            {
+                // ReSharper disable once PossibleNullReferenceException
+                var reader = cmd.ExecuteReader();
+
+                List<TradeCards> trades = new List<TradeCards>();
+
+                while (reader.Read())
+                {
+                    var trade = new TradeCards();
+                    trade.Id = (string)reader[0];
+                    trade.Username = (string)reader[1];
+                    trade.CardId = (string)reader[2];
+                    trade.RequirementType = (string)reader[3];
+                    trade.RequirementElement = (string)reader[4];
+                    trade.RequirementDamage = (double)((decimal)reader[5]);
+
+                    trades.Add(trade);
+                }
+                
+                return trades;
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return null;
+            }
         }
 
-        public string DeleteTrade()
+        public string CreateTrade(string username, TradeCards trade)
         {
-            throw new NotImplementedException();
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            //Check if card is owned
+            var cmd = new NpgsqlCommand("Select * from player_cards where username = @username and card_id = @card_id", conn);
+            cmd.Parameters.AddWithValue("username", username);
+            cmd.Parameters.AddWithValue("card_id", trade.CardId);
+            cmd.Prepare();
+
+            
+
+            //Check if card is in deck
+            var cmd2 = new NpgsqlCommand("Select * from player_deck where username = @username and card_id = @card_id", conn);
+            cmd2.Parameters.AddWithValue("username", username);
+            cmd2.Parameters.AddWithValue("card_id", trade.CardId);
+            cmd2.Prepare();
+
+            //Create Trade
+            var cmd3 = new NpgsqlCommand("INSERT INTO trade (id, username, card_id, typ, element, damage) VALUES (@id, @username, @card_id, @typ, @element, @damage)", conn);
+            cmd3.Parameters.AddWithValue("id", trade.Id);
+            cmd3.Parameters.AddWithValue("username", username);
+            cmd3.Parameters.AddWithValue("card_id", trade.CardId);
+            if(trade.RequirementType != null)
+                cmd3.Parameters.AddWithValue("typ", trade.RequirementType);
+            else
+                cmd3.Parameters.AddWithValue("typ", "");
+            if(trade.RequirementElement != null)
+                cmd3.Parameters.AddWithValue("element", trade.RequirementElement);
+            else
+                cmd3.Parameters.AddWithValue("element", "");
+            cmd3.Parameters.AddWithValue("damage", trade.RequirementDamage);
+            cmd3.Prepare();
+
+            try
+            {
+                var reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                    return "Card was not found in the users stack!";
+
+                reader.Close();
+
+                var reader2 = cmd2.ExecuteReader();
+                if (reader2.HasRows)
+                    return "Card is currently in a deck!";
+
+                reader2.Close();
+
+                cmd3.ExecuteNonQuery();
+                return "Successfully created trade request!";
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return "Internal database error!";
+            }
         }
 
-        public string ShowAvailableTrades()
+        public string DeleteTrade(string username, string tradeID)
         {
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            //check if trade exists
+            var cmd = new NpgsqlCommand("Select * from trade where id = @id", conn);
+            cmd.Parameters.AddWithValue("id", tradeID);
+            cmd.Prepare();
+
+            //check if user owns trade
+            var cmd2 = new NpgsqlCommand("Select * from trade where username = @username and id = @id", conn);
+            cmd2.Parameters.AddWithValue("username", username);
+            cmd2.Parameters.AddWithValue("id", tradeID);
+            cmd2.Prepare();
+
+            //delete trade
+            var cmd3 = new NpgsqlCommand("DELETE FROM trade where id = @id", conn);
+            cmd3.Parameters.AddWithValue("id", tradeID);
+            cmd3.Prepare();
+
+            try
+            {
+                var reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                    return "No corresponding trade request found!";
+
+                reader.Close();
+
+                var reader2 = cmd2.ExecuteReader();
+                if (!reader2.HasRows)
+                    return "Unauthorized command!";
+
+                reader2.Close();
+
+                cmd3.ExecuteNonQuery();
+                return "Successfully deleted trade request!";
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return "Internal database error!";
+            }
+        }
+
+        public string ExecuteTrade(string username)
+        {
+            //Check if trade exists
+            //Get trade data
+            //Check the 2 trader (trading with oneself)
+            //Check if card to be traded meets requirements
+            //Delete trade request
+            //Update player_cards information
+            
             throw new NotImplementedException();
         }
 

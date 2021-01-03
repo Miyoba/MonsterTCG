@@ -45,7 +45,6 @@
     <Compile Include="Card.cs" />
     <Compile Include="CardDeck.cs" />
     <Compile Include="CardPackage.cs" />
-    <Compile Include="CardType.cs" />
     <Compile Include="ClientHandler.cs" />
     <Compile Include="Dragon.cs" />
     <Compile Include="Element.cs" />
@@ -63,6 +62,7 @@
     <Compile Include="ITcpHandler.cs" />
     <Compile Include="JsonCard.cs" />
     <Compile Include="JsonResponse.cs" />
+    <Compile Include="JsonUser.cs" />
     <Compile Include="Knight.cs" />
     <Compile Include="Kraken.cs" />
     <Compile Include="RequestManager.cs" />

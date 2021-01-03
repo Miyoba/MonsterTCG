@@ -35,13 +35,13 @@
     <Position X="23.5" Y="5" Width="1.5" />
     <AssociationLine Name="SelectedDeck" Type="MonsterTCG.CardDeck" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="24.75" Y="7.257" />
+        <Point X="24.75" Y="7.449" />
         <Point X="24.75" Y="8" />
         <Point X="25.75" Y="8" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAQAAAAAAAACQAACAQAgACAABACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAQAAAAAAAACQAACAQAgACAABACAAAIAAAAAAA=</HashCode>
       <FileName>User.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -61,12 +61,12 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MonsterTCG.Store">
-    <Position X="16.25" Y="8.75" Width="3" />
+    <Position X="17" Y="8.75" Width="3" />
     <AssociationLine Name="MarketCards" Type="MonsterTCG.TradeCards" FixedToPoint="true">
       <Path>
-        <Point X="17.75" Y="9.853" />
-        <Point X="17.75" Y="10.5" />
-        <Point X="19.75" Y="10.5" />
+        <Point X="18.5" Y="9.853" />
+        <Point X="18.5" Y="10.936" />
+        <Point X="20.5" Y="10.936" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.018" Y="0.1" />
@@ -83,7 +83,7 @@
   <Class Name="MonsterTCG.MonsterTcgdb">
     <Position X="13.75" Y="2.75" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>MEAAIAAAAIACAAIAAAIAAAAAAAAECIAAACAAACARAAE=</HashCode>
+      <HashCode>MEAAIAAAAIACAAIAAAIAAIAAAAAECIAAACAAACARAAE=</HashCode>
       <FileName>MonsterTCG_DB.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -117,22 +117,11 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MonsterTCG.TradeCards">
-    <Position X="19.75" Y="10" Width="2.25" />
-    <AssociationLine Name="Card" Type="MonsterTCG.ICard" FixedFromPoint="true">
-      <Path>
-        <Point X="22" Y="10.938" />
-        <Point X="26.25" Y="10.938" />
-      </Path>
-    </AssociationLine>
+    <Position X="20.5" Y="10" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AABBAAAAAAIAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAADAAAAAAIAAAAAAQAAAAAAAAAAAAACAAAAAAgAAAA=</HashCode>
       <FileName>TradeCards.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="RequirementType" />
-      <Property Name="Card" />
-      <Property Name="RequirementElement" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="MonsterTCG.BattleLog">
     <Position X="23.5" Y="2.5" Width="1.5" />
@@ -330,6 +319,13 @@
       <FileName>JsonCard.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="MonsterTCG.JsonUser">
+    <Position X="26" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACQAACAQAAAAAABAAAAAIAAAAAAA=</HashCode>
+      <FileName>JsonUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="MonsterTCG.ICard">
     <Position X="26.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
@@ -395,25 +391,18 @@
       <Property Name="Response" />
     </ShowAsAssociation>
   </Interface>
-  <Enum Name="MonsterTCG.EnumElementType">
-    <Position X="23.25" Y="9.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ElementType.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="MonsterTCG.CardType">
-    <Position X="17.75" Y="11.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAgAAAAAAAAA=</HashCode>
-      <FileName>CardType.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Enum Name="MonsterTCG.StatusCodesEnum">
     <Position X="2.25" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAEAAAAIAAAEAAAgAAEAAAAAAAEAAAQAACABAAAAAAA=</HashCode>
       <FileName>StatusCodesEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MonsterTCG.EnumElementType">
+    <Position X="18" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ElementType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

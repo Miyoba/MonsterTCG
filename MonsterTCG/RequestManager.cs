@@ -258,36 +258,164 @@ namespace MonsterTCG
 
         public IResponse ShowUserProfile()
         {
-            throw new System.NotImplementedException();
+
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string[] separator = {"/"};
+            string[] words = Context.Path.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+
+            if(!words[1].Equals(username))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+
+            var erg = Db.ShowPlayerData(username);
+            if(erg != null)
+                return new JsonResponse(StatusCodesEnum.Ok, JsonConvert.SerializeObject(erg));
+            return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
         }
         public IResponse EditUserProfile()
         {
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string[] separator = {"/"};
+            string[] words = Context.Path.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+
+            if(!words[1].Equals(username))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            var user = JsonConvert.DeserializeObject<JsonUser>(Context.Payload);
+            user.Username = username;
+
+            var erg = Db.EditPlayer(user);
+            if(erg)
+                return new TextResponse(StatusCodesEnum.Ok, "User information successfully changed!");
+            return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
         }
 
         public IResponse ShowStats()
         {
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            var erg = Db.ShowStats(username);
+            if(erg != null)
+                return new TextResponse(StatusCodesEnum.Ok, erg);
+            return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
         }
 
         public IResponse ShowScoreboard()
         {
-            throw new System.NotImplementedException();
-        }
+            string token;
 
-        public IResponse CreateTrade()
-        {
-            throw new System.NotImplementedException();
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            var erg = Db.ShowScoreboard();
+            if(erg != null)
+                return new TextResponse(StatusCodesEnum.Ok, erg);
+            return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
         }
 
         public IResponse ShowTrades()
         {
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            List<TradeCards> erg = Db.ShowAvailableTrades();
+
+
+            if(erg == null)
+                return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
+            if(erg.Count == 0)
+                return new TextResponse(StatusCodesEnum.NoContent, "No active trade requests found!");
+            return new JsonResponse(StatusCodesEnum.Ok, JsonConvert.SerializeObject(erg));
+
+        }
+
+        public IResponse CreateTrade()
+        {
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            TradeCards trade = JsonConvert.DeserializeObject<TradeCards>(Context.Payload);
+
+            string erg = Db.CreateTrade(username, trade);
+            if(erg == null)
+                return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
+            if(erg.Equals("Card was not found in the users stack!"))
+                return new TextResponse(StatusCodesEnum.NotFound, erg);
+            if(erg.Equals("Card is currently in a deck!"))
+                return new TextResponse(StatusCodesEnum.Forbidden, erg);
+            return new TextResponse(StatusCodesEnum.Created, erg);
+            
         }
 
         public IResponse DeleteTrade()
         {
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string[] separator = {"/"};
+            string[] words = Context.Path.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+
+            var erg = Db.DeleteTrade(username, words[1]);
+            if(erg == null)
+                return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
+            if(erg.Equals("No corresponding trade request found!"))
+                return new TextResponse(StatusCodesEnum.NotFound, erg);
+            if(erg.Equals("Unauthorized command!"))
+                return new TextResponse(StatusCodesEnum.Unauthorized, erg);
+            return new TextResponse(StatusCodesEnum.Ok, erg);
+
         }
 
         public IResponse ExecuteTrade()
@@ -297,7 +425,7 @@ namespace MonsterTCG
 
         public IResponse BeginBattle()
         {
-            throw new System.NotImplementedException();
+            return new TextResponse(StatusCodesEnum.InternalServerError, "TODO");
         }
     }
 }
