@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using Npgsql;
-using NpgsqlTypes;
 
 namespace MonsterTCG
 {
@@ -38,7 +34,7 @@ namespace MonsterTCG
                 cmd2.ExecuteNonQuery();
                 return true;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return false;
             }
@@ -65,7 +61,7 @@ namespace MonsterTCG
 
                 return null;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -84,7 +80,7 @@ namespace MonsterTCG
                 cmd.ExecuteNonQuery();
                 return true;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return false;
             }
@@ -93,8 +89,8 @@ namespace MonsterTCG
         public string BuyPackage(string token)
         {
 
-            string erg = null;
-            int coins = 0;
+            string erg;
+            int coins;
             string username = GetUsernameFromToken(token);
             List<ICard> realCards = new List<ICard>();
 
@@ -132,7 +128,7 @@ namespace MonsterTCG
                 }
 
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -154,7 +150,7 @@ namespace MonsterTCG
                 cmd1.ExecuteNonQuery();
             }
 
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -179,7 +175,7 @@ namespace MonsterTCG
                     cmd2.ExecuteNonQuery();
                     cmd3.ExecuteNonQuery();
                 }
-                catch (Npgsql.PostgresException)
+                catch (PostgresException)
                 {
                     return null;
                 }
@@ -216,7 +212,7 @@ namespace MonsterTCG
                 }
                 return null;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -246,7 +242,7 @@ namespace MonsterTCG
                 }
                 return null;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -258,7 +254,6 @@ namespace MonsterTCG
             using var conn = new NpgsqlConnection(ConnectionString);
             conn.Open();
 
-            List<string> checkList = new List<string>();
             try
             {
                 foreach (var card in cards)
@@ -308,7 +303,7 @@ namespace MonsterTCG
                     cmd3.ExecuteNonQuery();
                 }
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return "Internal database error!";
             }
@@ -345,7 +340,7 @@ namespace MonsterTCG
 
                 return user;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -371,7 +366,7 @@ namespace MonsterTCG
                     return true;
                 return false;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return false;
             }
@@ -394,7 +389,7 @@ namespace MonsterTCG
                 
                 return username +"'s Elo: "+ reader;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -423,7 +418,7 @@ namespace MonsterTCG
                 
                 return scoreboard;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -460,7 +455,7 @@ namespace MonsterTCG
                 
                 return trades;
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return null;
             }
@@ -476,8 +471,6 @@ namespace MonsterTCG
             cmd.Parameters.AddWithValue("username", username);
             cmd.Parameters.AddWithValue("card_id", trade.CardId);
             cmd.Prepare();
-
-            
 
             //Check if card is in deck
             var cmd2 = new NpgsqlCommand("Select * from player_deck where username = @username and card_id = @card_id", conn);
@@ -518,31 +511,31 @@ namespace MonsterTCG
                 cmd3.ExecuteNonQuery();
                 return "Successfully created trade request!";
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return "Internal database error!";
             }
         }
 
-        public string DeleteTrade(string username, string tradeID)
+        public string DeleteTrade(string username, string tradeId)
         {
             using var conn = new NpgsqlConnection(ConnectionString);
             conn.Open();
 
             //check if trade exists
             var cmd = new NpgsqlCommand("Select * from trade where id = @id", conn);
-            cmd.Parameters.AddWithValue("id", tradeID);
+            cmd.Parameters.AddWithValue("id", tradeId);
             cmd.Prepare();
 
             //check if user owns trade
             var cmd2 = new NpgsqlCommand("Select * from trade where username = @username and id = @id", conn);
             cmd2.Parameters.AddWithValue("username", username);
-            cmd2.Parameters.AddWithValue("id", tradeID);
+            cmd2.Parameters.AddWithValue("id", tradeId);
             cmd2.Prepare();
 
             //delete trade
             var cmd3 = new NpgsqlCommand("DELETE FROM trade where id = @id", conn);
-            cmd3.Parameters.AddWithValue("id", tradeID);
+            cmd3.Parameters.AddWithValue("id", tradeId);
             cmd3.Prepare();
 
             try
@@ -562,22 +555,150 @@ namespace MonsterTCG
                 cmd3.ExecuteNonQuery();
                 return "Successfully deleted trade request!";
             }
-            catch (Npgsql.PostgresException)
+            catch (PostgresException)
             {
                 return "Internal database error!";
             }
         }
 
-        public string ExecuteTrade(string username)
+        public int ExecuteTrade(string username, string tradeId, string cardId)
         {
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            var tradeCardJson = new JsonCard();
+            var tradeRequest = new TradeCards();
+
             //Check if trade exists
+            var cmd = new NpgsqlCommand("Select * from trade where id = @id", conn);
+            cmd.Parameters.AddWithValue("id", tradeId);
+            cmd.Prepare();
+
+            //Check if user owns trade
+            var cmd2 = new NpgsqlCommand("Select * from trade where username = @username and id = @id", conn);
+            cmd2.Parameters.AddWithValue("username", username);
+            cmd2.Parameters.AddWithValue("id", tradeId);
+            cmd2.Prepare();
+
+            //Check if user owns card and get card data
+            var cmd3 = new NpgsqlCommand("Select id, name, damage from player_cards inner join cards on player_cards.card_id = cards.id where username = @username and card_id = @card_id", conn);
+            cmd3.Parameters.AddWithValue("username", username);
+            cmd3.Parameters.AddWithValue("card_id", cardId);
+            cmd3.Prepare();
+
             //Get trade data
-            //Check the 2 trader (trading with oneself)
+            var cmd4 = new NpgsqlCommand("Select id, username, card_id, typ, element, damage from trade where id = @id", conn);
+            cmd4.Parameters.AddWithValue("id", tradeId);
+            cmd4.Prepare();
+
+
             //Check if card to be traded meets requirements
+
             //Delete trade request
-            //Update player_cards information
+            var cmd5 = new NpgsqlCommand("DELETE FROM trade where card_id = @card_id", conn);
             
-            throw new NotImplementedException();
+
+            //Update player_cards information (needs card_id from tradeRequest)
+            var cmd6 = new NpgsqlCommand("UPDATE player_cards SET username = @username where card_id = @card_id", conn);
+            cmd6.Parameters.AddWithValue("username", username);
+            
+
+            //Update second player_cards information (needs username from tradeRequest)
+            var cmd7 = new NpgsqlCommand("UPDATE player_cards SET username = @username where card_id = @card_id", conn);
+            cmd7.Parameters.AddWithValue("card_id", cardId);
+
+            try
+            {
+                //check if Trade request exists
+                var reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                    return -2;
+
+                reader.Close();
+
+                //Check if user owns trade
+                var reader2 = cmd2.ExecuteReader();
+                if (reader2.HasRows)
+                    return -3;
+
+                reader2.Close();
+
+                //Check if user owns card and get card data
+                var reader3 = cmd3.ExecuteReader();
+                if (!reader3.HasRows)
+                    return -4;
+                while (reader3.Read())
+                {
+                    tradeCardJson.Id = (string) reader3[0];
+                    tradeCardJson.Name = (string) reader3[1];
+                    tradeCardJson.Damage = (double) ((decimal) reader3[2]);
+                }
+
+                var tradeCard = tradeCardJson.ConvertToCard();
+
+                reader3.Close();
+
+                var reader4 = cmd4.ExecuteReader();
+                while (reader4.Read())
+                {
+                    //id, username, card_id, typ, element, damage
+                    tradeRequest.Id = (string) reader4[0];
+                    tradeRequest.Username = (string) reader4[1];
+                    tradeRequest.CardId = (string) reader4[2];
+                    tradeRequest.RequirementType = (string) reader4[3];
+                    tradeRequest.RequirementElement = (string) reader4[4];
+                    tradeRequest.RequirementDamage = (double)((decimal) reader4[5]);
+                }
+
+                reader4.Close();
+
+                //Check if card to be traded meets requirements
+
+                if (tradeCard.Damage < tradeRequest.RequirementDamage)
+                    return -10;
+
+                if (!tradeRequest.RequirementType.Equals(""))
+                {
+                    if (tradeRequest.RequirementType.ToLower().Equals("monster") && tradeCard is SpellCard)
+                        return -11;
+                    if (tradeRequest.RequirementType.ToLower().Equals("spell") && tradeCard.GetType().IsSubclassOf(typeof(MonsterCard)))
+                        return -11;
+                }
+                if (!tradeRequest.RequirementElement.Equals(""))
+                {
+                    if (tradeRequest.RequirementElement.ToLower().Equals("fire") && !(tradeCard.Element is Fire))
+                        return -12;
+                    if (tradeRequest.RequirementElement.ToLower().Equals("water") && !(tradeCard.Element is Water))
+                        return -12;
+                    if ((tradeRequest.RequirementElement.ToLower().Equals("normal") || tradeRequest.RequirementElement.ToLower().Equals("regular")) && !(tradeCard.Element is Normal))
+                        return -12;
+                }
+
+
+                cmd5.Parameters.AddWithValue("card_id", tradeRequest.CardId);
+                cmd5.Prepare();
+
+                if (cmd5.ExecuteNonQuery() == -1)
+                    return -13;
+
+                cmd6.Parameters.AddWithValue("card_id", tradeRequest.CardId);
+                cmd6.Prepare();
+
+                if (cmd6.ExecuteNonQuery() == -1)
+                    return -14;
+
+                cmd7.Parameters.AddWithValue("username", tradeRequest.Username);
+                cmd7.Prepare();
+
+                if (cmd7.ExecuteNonQuery() == -1)
+                    return -14;
+
+                return 1;
+            }
+            catch (PostgresException)
+            {
+                return -1;
+            }
         }
 
         public string GetUsernameFromToken(string token)
@@ -593,7 +714,7 @@ namespace MonsterTCG
             {
                 return (string)cmd.ExecuteScalar();
             }
-            catch (Npgsql.PostgresException e)
+            catch (PostgresException e)
             {
                 Console.WriteLine(e);
                 return null;

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonsterTCG
 {
@@ -25,7 +22,7 @@ namespace MonsterTCG
 
             if (header != null)
             {
-                string[] words = header.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+                string[] words = header.Split(separator, StringSplitOptions.RemoveEmptyEntries);
 
                 Request = words[0];
                 Path = words[1];
@@ -34,11 +31,11 @@ namespace MonsterTCG
                 Information.Add("Path", Path);
                 Information.Add("Version", Version);
             
-                separator = new string[]{": "};
+                separator = new[]{": "};
                 do
                 {
                     header = reader.ReadLine();
-                    if (header != null) words = header.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+                    if (header != null) words = header.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                     if (words.Length == 2)
                     {
                         Information.Add(words[0], words[1]);
@@ -49,8 +46,7 @@ namespace MonsterTCG
 
             if (Information.ContainsKey("Content-Length"))
             {
-                var contentLengthText = "";
-                if (Information.TryGetValue("Content-Length", out contentLengthText))
+                if (Information.TryGetValue("Content-Length", out var contentLengthText))
                 {
                     int contentLength = Int32.Parse(contentLengthText);
                     if (contentLength != 0)

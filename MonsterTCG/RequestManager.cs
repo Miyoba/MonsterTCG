@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace MonsterTCG
@@ -117,7 +109,7 @@ namespace MonsterTCG
                     return new TextResponse(StatusCodesEnum.Created, "User successfully created!");
                 return new TextResponse(StatusCodesEnum.Conflict, "Username already taken. User could not be created!");
             }
-            catch (Newtonsoft.Json.JsonSerializationException)
+            catch (JsonSerializationException)
             {
                 return new TextResponse(StatusCodesEnum.InternalServerError, "Could not deserialize json data!");
             }
@@ -134,7 +126,7 @@ namespace MonsterTCG
                     return new TextResponse(StatusCodesEnum.NotFound,"User or password is incorrect!");
                 return new TextResponse(StatusCodesEnum.Ok,token);
             }
-            catch (Newtonsoft.Json.JsonSerializationException)
+            catch (JsonSerializationException)
             {
                 return new TextResponse(StatusCodesEnum.InternalServerError, "Could not deserialize json data!");
             }
@@ -250,7 +242,7 @@ namespace MonsterTCG
                     return new TextResponse(StatusCodesEnum.InternalServerError, erg);
                 return new TextResponse(StatusCodesEnum.Forbidden, erg);
             }
-            catch (Newtonsoft.Json.JsonSerializationException)
+            catch (JsonSerializationException)
             {
                 return new TextResponse(StatusCodesEnum.InternalServerError, "Could not deserialize json data!");
             }
@@ -420,12 +412,90 @@ namespace MonsterTCG
 
         public IResponse ExecuteTrade()
         {
-            throw new System.NotImplementedException();
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string[] separator = {"/"};
+            string[] words = Context.Path.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+
+            string cardId = JsonConvert.DeserializeObject<string>(Context.Payload);
+
+            var erg = Db.ExecuteTrade(username, words[1], cardId);
+
+            switch (erg)
+            {
+                case 1:
+                    return new TextResponse(StatusCodesEnum.Ok, "Trade request successfully executed!");
+                case -1:
+                    return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
+                case -2:
+                    return new TextResponse(StatusCodesEnum.NotFound, "Trade request could not be found!");
+                case -3:
+                    return new TextResponse(StatusCodesEnum.Forbidden, "Cannot execute the trade request!\nA trade has to involve 2 different user!");
+                case -4:
+                    return new TextResponse(StatusCodesEnum.NotFound, "Card could not be found!");
+                case -10:
+                    return new TextResponse(StatusCodesEnum.Conflict, "Card damage does not meet the requirements!");
+                case -11:
+                    return new TextResponse(StatusCodesEnum.Conflict, "Card type does not meet the requirements!");
+                case -12:
+                    return new TextResponse(StatusCodesEnum.Conflict, "Card element does not meet the requirements!");
+                case -13:
+                    return new TextResponse(StatusCodesEnum.InternalServerError, "Trade could not be deleted!");
+                case -14:
+                    return new TextResponse(StatusCodesEnum.InternalServerError, "Card could not be assigned to player!");
+
+                default:
+                    return new TextResponse(StatusCodesEnum.InternalServerError, "Unknown error!");
+            }
         }
 
         public IResponse BeginBattle()
         {
-            return new TextResponse(StatusCodesEnum.InternalServerError, "TODO");
+            var card1 = new Knight("Id token", "BubbleKnight", 15.0, EnumElementType.Water);
+            var card2 = new Knight("Id token", "FlameKnight", 25.0, EnumElementType.Fire);
+            var card3 = new SpellCard("Id token", "FireSpell", 25.0, EnumElementType.Fire);
+            var card4 = new SpellCard("Id token", "RegularSpell", 30.0, EnumElementType.Normal);
+            var card5 = new SpellCard("Id token", "WaterSpell", 13.0, EnumElementType.Water);
+            var card6 = new Kraken("Id token", "TinyOctopus", 5.0, EnumElementType.Normal);
+            var card7 = new Goblin("Id token", "Goblin", 12.0, EnumElementType.Fire);
+            var card8 = new Dragon("Id token", "Drogo", 18.0, EnumElementType.Normal);
+
+            var deck1 = new CardDeck();
+            deck1.Cards.Add(card1);
+            deck1.Cards.Add(card3);
+            deck1.Cards.Add(card5);
+            deck1.Cards.Add(card7);
+
+            var deck2 = new CardDeck();
+            deck2.Cards.Add(card2);
+            deck2.Cards.Add(card4);
+            deck2.Cards.Add(card6);
+            deck2.Cards.Add(card8);
+
+            var user1 = new User();
+            user1.Username = "Daniel";
+            user1.SelectedDeck = deck1;
+
+            var user2 = new User();
+            user2.Username = "Wolfgang";
+            user2.SelectedDeck = deck2;
+
+            var list = new List<User>();
+            list.Add(user1);
+            list.Add(user2);
+
+            var battle = new Battle(list);
+            var log = battle.Fight();
+
+            return new TextResponse(StatusCodesEnum.Ok, log.Log);
         }
     }
 }

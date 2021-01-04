@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MonsterTCG
 {
@@ -9,33 +7,33 @@ namespace MonsterTCG
     {
         public BattleDeck(User user, CardDeck deck)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public User User
-        {
-            get => default;
-            set
+            Cards = new List<ICard>();
+            User = user;
+            foreach (var card in deck.Cards)
             {
+                Cards.Add(card);
             }
         }
 
-        public List<ICard> cards
+        public User User { get; set; }
+
+        public List<ICard> Cards { get; set; }
+
+        public void AddCard(ICard card)
         {
-            get => default;
-            set
-            {
-            }
+            Cards.Add(card);
         }
 
-        public void AddCard()
+        public bool RemoveCard(ICard card)
         {
-            throw new System.NotImplementedException();
+            return Cards.Remove(card);
         }
 
-        public void RemoveCard()
+        public void MoveFirstCardToLastPos()
         {
-            throw new System.NotImplementedException();
+            ICard card = Cards[0];
+            Cards.Remove(card);
+            Cards.Add(card);
         }
     }
 }

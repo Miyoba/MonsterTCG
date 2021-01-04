@@ -1,36 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MonsterTCG
 {
     public class BattleLog
     {
-        public BattleLog(List<User> player)
+        public BattleLog()
         {
-            throw new System.NotImplementedException();
+            Log = "";
         }
 
-        public List<User> Player
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public String Log { get; set; }
+        public User Winner { get; set; }
 
-        public String Log
+        public void AddRoundText(string text)
         {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public void AddRoundText()
-        {
-            throw new System.NotImplementedException();
+            Log += text+"\n";
         }
     }
 }

@@ -35,7 +35,7 @@
     <Position X="23.5" Y="5" Width="1.5" />
     <AssociationLine Name="SelectedDeck" Type="MonsterTCG.CardDeck" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="24.75" Y="7.449" />
+        <Point X="24.75" Y="7.257" />
         <Point X="24.75" Y="8" />
         <Point X="25.75" Y="8" />
       </Path>
@@ -48,24 +48,26 @@
       <Property Name="Stack" />
       <Property Name="SelectedDeck" />
     </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Logs" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MonsterTCG.Battle">
-    <Position X="17.75" Y="4.75" Width="2" />
+    <Position X="17.75" Y="5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAAAIAIAAAAAAAAAAREAAAAAAAAAAAQAAAAA=</HashCode>
+      <HashCode>AAAAAAIAAAAIAIAAAAAAAAAAQEgAAAQAAAAAAAAAAAA=</HashCode>
       <FileName>Battle.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Player" />
-      <Property Name="battleDecks" />
+      <Property Name="BattleDecks" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MonsterTCG.Store">
-    <Position X="17" Y="8.75" Width="3" />
+    <Position X="17.5" Y="8.5" Width="3" />
     <AssociationLine Name="MarketCards" Type="MonsterTCG.TradeCards" FixedToPoint="true">
       <Path>
-        <Point X="18.5" Y="9.853" />
-        <Point X="18.5" Y="10.936" />
+        <Point X="18.969" Y="9.603" />
+        <Point X="18.969" Y="10.936" />
         <Point X="20.5" Y="10.936" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -81,7 +83,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MonsterTCG.MonsterTcgdb">
-    <Position X="13.75" Y="2.75" Width="3.25" />
+    <Position X="13.75" Y="4.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>MEAAIAAAAIACAAIAAAIAAIAAAAAECIAAACAAACARAAE=</HashCode>
       <FileName>MonsterTCG_DB.cs</FileName>
@@ -126,12 +128,9 @@
   <Class Name="MonsterTCG.BattleLog">
     <Position X="23.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAQACAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAgAAAAAAAAAAAACAAA=</HashCode>
       <FileName>BattleLog.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Player" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MonsterTCG.Knight">
     <Position X="25" Y="15" Width="1.5" />
@@ -183,9 +182,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MonsterTCG.BattleDeck">
-    <Position X="20.75" Y="4" Width="1.5" />
+    <Position X="20.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABIAAAAAAAAAQAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABIAAAAAAAAAQEAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>BattleDeck.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
