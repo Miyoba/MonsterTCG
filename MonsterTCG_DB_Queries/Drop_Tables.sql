@@ -1,3 +1,4 @@
+DROP TABLE battle_log;
 DROP TABLE battle;
 DROP TABLE player_deck;
 DROP TABLE trade;

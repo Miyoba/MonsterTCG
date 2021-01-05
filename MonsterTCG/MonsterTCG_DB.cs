@@ -305,7 +305,7 @@ namespace MonsterTCG
             }
             catch (PostgresException)
             {
-                return "Internal database error!";
+                return null;
             }
 
             return null;
@@ -698,6 +698,209 @@ namespace MonsterTCG
             catch (PostgresException)
             {
                 return -1;
+            }
+        }
+
+        public string ExecuteBattle(string username)
+        {
+            using var conn = new NpgsqlConnection(ConnectionString);
+            conn.Open();
+
+            //Check if user has deck
+            var cmd = new NpgsqlCommand("Select * from player_deck where username = @username", conn);
+            cmd.Parameters.AddWithValue("username", username);
+            cmd.Prepare();
+
+            //Check if Battle entry without user exists
+            var cmd2 = new NpgsqlCommand("Select id from battle where player1 != @username and player2 is null", conn);
+            cmd2.Parameters.AddWithValue("username", username);
+            cmd2.Prepare();
+
+            //Create Battle entry if necessary
+            var cmd3 = new NpgsqlCommand("INSERT INTO battle (player1) VALUES (@username)", conn);
+            cmd3.Parameters.AddWithValue("username", username);
+            cmd3.Prepare();
+
+            var cmdUpdate = new NpgsqlCommand("UPDATE battle SET player2 = @username where id = @id", conn);
+
+            //Get created BattleID
+            var cmdBattle = new NpgsqlCommand("Select id from battle where player1 = @username", conn);
+            cmdBattle.Parameters.AddWithValue("username", username);
+            cmdBattle.Prepare();
+
+            //If Battle entry exists already execute battle
+            var cmd4 = new NpgsqlCommand("Select player1 from battle where id = @id", conn);
+            var cmd5 = new NpgsqlCommand("Select id, name, damage from cards inner join player_deck on cards.id = player_deck.card_id where username = @username", conn);
+            var cmd6 = new NpgsqlCommand("Select id, name, damage from cards inner join player_deck on cards.id = player_deck.card_id where username = @username", conn);
+
+            //reduce Elo
+            var cmdLoser = new NpgsqlCommand("UPDATE player SET elo = (elo-5) where username = @username", conn);
+            var cmdWinner = new NpgsqlCommand("UPDATE player SET elo = (elo+3) where username = @username", conn);
+
+            //Save Battle in BattleLog
+            var cmd9 = new NpgsqlCommand("INSERT INTO battle_log (id, battle_text, winner) VALUES (@id, @battle_text, @winner)", conn);
+
+            //Loop until BattleLog exists
+            var cmd10 = new NpgsqlCommand("Select battle_text from battle_log where id = @id", conn);
+
+            try
+            {
+                //Check if user has deck
+                var reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                    return "No deck found!";
+
+                reader.Close();
+
+                //Check if Battle entry without user exists
+                var reader2 = cmd2.ExecuteReader();
+                //If Battle entry exists already -> execute battle
+                int battleId;
+                if (reader2.HasRows)
+                {
+                    reader2.Read();
+                    battleId = (int)reader2[0];
+                    reader2.Close();
+
+                    cmd4.Parameters.AddWithValue("id", battleId);
+                    cmd4.Prepare();
+
+                    var reader4 = cmd4.ExecuteReader();
+                    if (!reader4.HasRows)
+                        return null;
+                    reader4.Read();
+                    var player1 = (string)reader4[0];
+                    var player2 = username;
+
+                    reader4.Close();
+
+                    cmdUpdate.Parameters.AddWithValue("username", username);
+                    cmdUpdate.Parameters.AddWithValue("id", battleId);
+                    cmdUpdate.Prepare();
+
+                    cmdUpdate.ExecuteNonQuery();
+
+                    cmd5.Parameters.AddWithValue("username", player1);
+                    cmd5.Prepare();
+
+                    cmd6.Parameters.AddWithValue("username", player2);
+                    cmd6.Prepare();
+
+                    var cardList1 = new List<ICard>();
+                    var cardList2 = new List<ICard>();
+
+                    var reader5 = cmd5.ExecuteReader();
+                    if (!reader5.HasRows)
+                        return null;
+                    while (reader5.Read())
+                    {
+                        var card = new JsonCard();
+                        card.Id = (string)reader5[0];
+                        card.Name = (string) reader5[1];
+                        card.Damage = (double) ((decimal) reader5[2]);
+                        cardList1.Add(card.ConvertToCard());
+                    }
+
+                    reader5.Close();
+
+                    var reader6 = cmd6.ExecuteReader();
+                    if (!reader6.HasRows)
+                        return null;
+                    while (reader6.Read())
+                    {
+                        var card = new JsonCard();
+                        card.Id = (string)reader6[0];
+                        card.Name = (string) reader6[1];
+                        card.Damage = (double) ((decimal) reader6[2]);
+                        cardList2.Add(card.ConvertToCard());
+                    }
+
+                    reader6.Close();
+
+
+                    //DB inputs
+                    var deck1 = new CardDeck();
+                    var deck2 = new CardDeck();
+                    var users = new List<User>();
+                    var user1 = new User();
+                    var user2 = new User();
+
+                    deck1.Cards = cardList1;
+                    deck2.Cards = cardList2;
+                    user1.SelectedDeck = deck1;
+                    user2.SelectedDeck = deck2;
+                    user1.Username = player1;
+                    user2.Username = player2;
+                    users.Add(user1);
+                    users.Add(user2);
+
+                    Battle battle = new Battle(users);
+                    var log = battle.Fight();
+
+                    //reduce elo
+                    if (log.Winner != null)
+                    {
+                        cmdWinner.Parameters.AddWithValue("username", log.Winner.Username);
+                        cmdWinner.Prepare();
+
+                        cmdLoser.Parameters.AddWithValue("username",
+                            player1.Equals(log.Winner.Username) ? player2 : player1);
+                        cmdLoser.Prepare();
+
+                        cmdLoser.ExecuteNonQuery();
+                        cmdWinner.ExecuteNonQuery();
+                    }
+
+                    //Save Battle in BattleLog
+                    cmd9.Parameters.AddWithValue("id", battleId);
+                    cmd9.Parameters.AddWithValue("battle_text", log.Log);
+                    if(log.Winner != null)
+                        cmd9.Parameters.AddWithValue("winner", log.Winner.Username);
+                    else
+                        cmd9.Parameters.AddWithValue("winner", "");
+                    cmd9.Prepare();
+                    cmd9.ExecuteNonQuery();
+
+                }
+
+                //Create Battle entry if necessary
+                else
+                {
+                    reader2.Close();
+                    
+                    var reader3 = cmd3.ExecuteNonQuery();
+                    if (reader3 == -1)
+                        return null;
+
+                    //Get created battleID
+                    // ReSharper disable once PossibleNullReferenceException
+                    battleId = (int)cmdBattle.ExecuteScalar();
+                }
+
+
+                //Loop until BattleLog exists
+
+                cmd10.Parameters.AddWithValue("id", battleId);
+                cmd10.Prepare();
+
+                while(true)
+                {
+                    var reader10 = cmd10.ExecuteReader();
+                    if (reader10.HasRows)
+                    {
+                        reader10.Read();
+                        return (string)reader10[0];
+                    }
+                    reader10.Close();
+
+                    System.Threading.Thread.Sleep(1000);
+                }
+
+            }
+            catch (PostgresException e)
+            {
+                Console.WriteLine(e.MessageText);
+                return null;
             }
         }
 

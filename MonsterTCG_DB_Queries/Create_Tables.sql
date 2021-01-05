@@ -49,9 +49,8 @@ CONSTRAINT fk_trade
 );
 
 CREATE TABLE IF NOT EXISTS player_deck(
-id serial PRIMARY KEY,
+card_id VARCHAR(255) PRIMARY KEY,
 username VARCHAR(255) NOT NULL,
-card_id VARCHAR(255) NOT NULL,
 CONSTRAINT fk_player_deck
 	FOREIGN KEY(username) REFERENCES player(username),
 	FOREIGN KEY(card_id) REFERENCES player_cards(card_id)
@@ -65,3 +64,12 @@ CONSTRAINT fk_battle
 	FOREIGN KEY(player1) REFERENCES player(username),
 	FOREIGN KEY(player2) REFERENCES player(username)
 );
+
+CREATE TABLE IF NOT EXISTS battle_log(
+id INT PRIMARY KEY,
+battle_text VARCHAR(102400) NOT NULL,
+winner VARCHAR(255),
+CONSTRAINT fk_battle
+	FOREIGN KEY(id) REFERENCES battle(id)
+);
+--

@@ -35,7 +35,7 @@ namespace MonsterTCG
             if (Regex.IsMatch(Name, ".*Kraken"))
                 return new Kraken(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Spell"))
-                return new Knight(Id, Name, Damage, elementType);
+                return new SpellCard(Id, Name, Damage, elementType);
             return null;
         }
     }

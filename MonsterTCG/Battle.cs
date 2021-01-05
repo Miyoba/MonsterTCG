@@ -53,24 +53,26 @@ namespace MonsterTCG
                 Log.AddRoundText(NextRound());
                 Log.Winner = GetWinner();
             }
-            if(Log.Winner != null)
-                Log.AddRoundText("#######################################\nThe winner of this battle is "+ Log.Winner.Username);
+
+            if (Log.Winner != null)
+                Log.AddRoundText("#######################################\nThe winner of this battle is " +
+                                 Log.Winner.Username.ToUpper() + "\n");
             else
-                Log.AddRoundText("#######################################\nNobody was able to beat the opponents deck!");
+                Log.AddRoundText("#######################################\nNobody was able to beat the opponents deck!\n");
             return Log;
         }
 
         public string NextRound()
         {
             CurrentRound += 1;
-            string roundText = "";
+            string roundText = "Round "+CurrentRound+": ";
 
             double damage0 = BattleDecks[0].Cards[0].GetDamage(BattleDecks[1].Cards[0]);
             double damage1 = BattleDecks[1].Cards[0].GetDamage(BattleDecks[0].Cards[0]);
 
             if (damage0 > damage1)
             {
-                roundText = BattleDecks[0].User.Username + "'s " + BattleDecks[0].Cards[0].Name + " with " + damage0 +
+                roundText += BattleDecks[0].User.Username + "'s " + BattleDecks[0].Cards[0].Name + " with " + damage0 +
                        " damage overwhelms " + BattleDecks[1].User.Username + "'s " + BattleDecks[1].Cards[0].Name +
                        " with only " + damage1 + " damage.";
                 BattleDecks[0].AddCard(BattleDecks[1].Cards[0]);
@@ -80,7 +82,7 @@ namespace MonsterTCG
 
             else if (damage0 < damage1)
             {
-                roundText = BattleDecks[1].User.Username + "'s " + BattleDecks[1].Cards[0].Name + " with " + damage1 +
+                roundText += BattleDecks[1].User.Username + "'s " + BattleDecks[1].Cards[0].Name + " with " + damage1 +
                        " damage overwhelms " + BattleDecks[0].User.Username + "'s " + BattleDecks[0].Cards[0].Name +
                        " with only " + damage0 + " damage.";
                 BattleDecks[1].AddCard(BattleDecks[0].Cards[0]);
@@ -90,12 +92,16 @@ namespace MonsterTCG
 
             else if (Math.Abs(damage0 - damage1) < 0.01)
             {
-                roundText = BattleDecks[1].User.Username + "'s " + BattleDecks[1].Cards[0].Name + " and " +
+                roundText += BattleDecks[1].User.Username + "'s " + BattleDecks[1].Cards[0].Name + " and " +
                        BattleDecks[0].User.Username + "'s " + BattleDecks[0].Cards[0].Name +
                        " clash together with an equal strength of " + damage0 + ".";
                 BattleDecks[1].MoveFirstCardToLastPos();
                 BattleDecks[0].MoveFirstCardToLastPos();
             }
+
+            roundText += "\n" + BattleDecks[0].User.Username + "'s Deck counter: " + BattleDecks[0].Cards.Count +
+                         "\t|\t" + BattleDecks[1].User.Username + "'s Deck counter: " + BattleDecks[1].Cards.Count+"\n";
+
             return roundText;
         }
 

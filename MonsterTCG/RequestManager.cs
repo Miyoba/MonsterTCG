@@ -459,6 +459,24 @@ namespace MonsterTCG
 
         public IResponse BeginBattle()
         {
+            string token;
+
+            if(!(Context.Information.TryGetValue("Authorization",out token)))
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string username = Db.GetUsernameFromToken(token);
+
+            if(username == null)
+                return new TextResponse(StatusCodesEnum.Unauthorized,"Unauthorized command!");
+
+            string erg = Db.ExecuteBattle(username);
+            if(erg == null)
+                return new TextResponse(StatusCodesEnum.InternalServerError, "Internal database error!");
+            if(erg.Equals("No deck found!"))
+                return new TextResponse(StatusCodesEnum.NotFound, erg);
+            return new TextResponse(StatusCodesEnum.Ok, erg);
+
+            /*
             var card1 = new Knight("Id token", "BubbleKnight", 15.0, EnumElementType.Water);
             var card2 = new Knight("Id token", "FlameKnight", 25.0, EnumElementType.Fire);
             var card3 = new SpellCard("Id token", "FireSpell", 25.0, EnumElementType.Fire);
@@ -496,6 +514,7 @@ namespace MonsterTCG
             var log = battle.Fight();
 
             return new TextResponse(StatusCodesEnum.Ok, log.Log);
+            */
         }
     }
 }

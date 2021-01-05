@@ -225,7 +225,7 @@
   <Class Name="MonsterTCG.TcpHandler">
     <Position X="4.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAACAAAAAAAAAAIAAAAAAAACAAYAAAAgAAAAQ=</HashCode>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAIAAAAAAAACAAYAAAAgAAAAA=</HashCode>
       <FileName>TcpHandler.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -272,24 +272,24 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MonsterTCG.ClientHandler">
-    <Position X="6" Y="7.5" Width="1.5" />
+    <Position X="6" Y="7.25" Width="1.5" />
     <AssociationLine Name="RequestManager" Type="MonsterTCG.RequestManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="7.5" Y="8.625" />
-        <Point X="10.471" Y="8.625" />
+        <Point X="7.5" Y="8.677" />
+        <Point X="10.471" Y="8.677" />
         <Point X="10.471" Y="8.625" />
         <Point X="11.5" Y="8.625" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="ResponseManager" Type="MonsterTCG.IResponseManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="6.688" Y="9.18" />
+        <Point X="6.688" Y="9.382" />
         <Point X="6.688" Y="9.899" />
         <Point X="8.75" Y="9.899" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAQABAAAgAAAIAAEAAAAAAAAAAAAAAEAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAQABAAAgAAAIAAEAAAAAAAAAAAAAAEAAAgAAAAAAQ=</HashCode>
       <FileName>ClientHandler.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -355,7 +355,7 @@
   <Interface Name="MonsterTCG.ITcpHandler">
     <Position X="6.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAACAAAAAAAAAAIAAAAAAAACAAYAAAAAAAAAA=</HashCode>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAIAAAAAAAACAAYAAAAAAAAAA=</HashCode>
       <FileName>ITcpHandler.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -374,9 +374,9 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="MonsterTCG.IClientHandler">
-    <Position X="4.25" Y="7.75" Width="1.5" />
+    <Position X="4.25" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAQAAAAAgAAAIAAEAAAAAAAAAAAAAAEAAAgAAAAAAQ=</HashCode>
       <FileName>IClientHandler.cs</FileName>
     </TypeIdentifier>
   </Interface>

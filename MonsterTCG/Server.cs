@@ -8,7 +8,7 @@ namespace MonsterTCG
     class Server
     {
         //Amount of clients that can connect at the same time to the server
-        static readonly SemaphoreSlim ConcurrentConnections = new SemaphoreSlim(2);
+        static readonly SemaphoreSlim ConcurrentConnections = new SemaphoreSlim(4);
 
         public static void Main()
         {

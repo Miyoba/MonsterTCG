@@ -22,33 +22,26 @@ namespace MonsterTCG
             Server.Start(5);
         }
 
-        public TcpClient Client { get; set; }
-
         public TcpListener Server { get; set; }
 
-        public void AcceptTcpClient()
+        public TcpClient AcceptTcpClient()
         {
-            Client = Server.AcceptTcpClient();
+            return Server.AcceptTcpClient();
         }
 
-        public void CloseClient()
+        public void CloseClient(TcpClient client)
         {
-            Client.Close();
+            client.Close();
         }
 
-        public int DataAvailable()
+        public int DataAvailable(TcpClient client)
         {
-            return Client.Available;
+            return client.Available;
         }
 
-        public void Dispose()
+        public Stream GetStream(TcpClient client)
         {
-            Client.Dispose();
-        }
-
-        public Stream GetStream()
-        {
-            return Client.GetStream();
+            return client.GetStream();
         }
 
         public void Stop()
