@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MonsterTCG
 {
     public class CardDeck
     {
+        public int Size { get; }
+
         public CardDeck(List<ICard> cards, int size)
         {
+            Size = size;
             MaxSize = 4;
             if(cards.Count > MaxSize)
                 throw new ArgumentException("Too many cards in the Deck.");

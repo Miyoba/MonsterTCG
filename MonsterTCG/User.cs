@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace MonsterTCG
@@ -28,7 +25,6 @@ namespace MonsterTCG
 
         [JsonProperty("Elo")]
         public int Elo { get; set; }
-        public Stack Stack { get; set; }
         public CardDeck SelectedDeck { get; set; }
         public List<BattleLog> Logs { get; set; }
     }

@@ -54,8 +54,6 @@ namespace MonsterTCG
                                 return LoginUser();
                             case "packages":
                                 return CreatePackageStacked();
-                            case "packagesRandom":
-                                return CreatePackageRandom();
                             case "transactions":
                                 return BuyPackage();
                             case "battles":
@@ -163,12 +161,6 @@ namespace MonsterTCG
             if (jsonCards != null)
                 return new JsonResponse(StatusCodesEnum.Ok, jsonCards);
             return new TextResponse(StatusCodesEnum.PaymentRequired, "Not enough coins or packages left!");
-        }
-
-        public IResponse CreatePackageRandom()
-        {
-            //Done by the admin
-            throw new System.NotImplementedException();
         }
 
         public IResponse ShowOwnedCards()
@@ -475,46 +467,6 @@ namespace MonsterTCG
             if(erg.Equals("No deck found!"))
                 return new TextResponse(StatusCodesEnum.NotFound, erg);
             return new TextResponse(StatusCodesEnum.Ok, erg);
-
-            /*
-            var card1 = new Knight("Id token", "BubbleKnight", 15.0, EnumElementType.Water);
-            var card2 = new Knight("Id token", "FlameKnight", 25.0, EnumElementType.Fire);
-            var card3 = new SpellCard("Id token", "FireSpell", 25.0, EnumElementType.Fire);
-            var card4 = new SpellCard("Id token", "RegularSpell", 30.0, EnumElementType.Normal);
-            var card5 = new SpellCard("Id token", "WaterSpell", 13.0, EnumElementType.Water);
-            var card6 = new Kraken("Id token", "TinyOctopus", 5.0, EnumElementType.Normal);
-            var card7 = new Goblin("Id token", "Goblin", 12.0, EnumElementType.Fire);
-            var card8 = new Dragon("Id token", "Drogo", 18.0, EnumElementType.Normal);
-
-            var deck1 = new CardDeck();
-            deck1.Cards.Add(card1);
-            deck1.Cards.Add(card3);
-            deck1.Cards.Add(card5);
-            deck1.Cards.Add(card7);
-
-            var deck2 = new CardDeck();
-            deck2.Cards.Add(card2);
-            deck2.Cards.Add(card4);
-            deck2.Cards.Add(card6);
-            deck2.Cards.Add(card8);
-
-            var user1 = new User();
-            user1.Username = "Daniel";
-            user1.SelectedDeck = deck1;
-
-            var user2 = new User();
-            user2.Username = "Wolfgang";
-            user2.SelectedDeck = deck2;
-
-            var list = new List<User>();
-            list.Add(user1);
-            list.Add(user2);
-
-            var battle = new Battle(list);
-            var log = battle.Fight();
-
-            return new TextResponse(StatusCodesEnum.Ok, log.Log);
-            */
         }
     }
 }

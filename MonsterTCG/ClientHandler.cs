@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace MonsterTCG
 {
-    class ClientHandler:IClientHandler
+    public class ClientHandler:IClientHandler
     {
         public ITcpHandler TcpHandler { get; set; }
         public IContextManager Context { get; set; }

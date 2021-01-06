@@ -34,6 +34,8 @@ namespace MonsterTCG
                 return new Fireelf(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Kraken"))
                 return new Kraken(Id, Name, Damage, elementType);
+            if (Regex.IsMatch(Name, ".*Bug"))
+                return new Bug(Id, Name, Damage, elementType);
             if (Regex.IsMatch(Name, ".*Spell"))
                 return new SpellCard(Id, Name, Damage, elementType);
             return null;

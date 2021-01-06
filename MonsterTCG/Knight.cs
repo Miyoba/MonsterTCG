@@ -11,7 +11,7 @@
         public override double GetDamage(ICard enemy)
         {
             if (enemy is SpellCard && enemy.Element is Water)
-                return -1;
+                return 0;
             return base.GetDamage(enemy);
         }
     }

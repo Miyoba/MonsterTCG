@@ -42,18 +42,16 @@
   <ItemGroup>
     <Compile Include="BattleDeck.cs" />
     <Compile Include="BattleLog.cs" />
+    <Compile Include="Bug.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CardDeck.cs" />
-    <Compile Include="CardPackage.cs" />
     <Compile Include="ClientHandler.cs" />
     <Compile Include="Dragon.cs" />
-    <Compile Include="Element.cs" />
     <Compile Include="ElementType.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="Fire.cs" />
     <Compile Include="Fireelf.cs" />
     <Compile Include="Goblin.cs" />
-    <Compile Include="ICardPackage.cs" />
     <Compile Include="IClientHandler.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="IContextManager.cs" />
@@ -70,14 +68,11 @@
     <Compile Include="Orc.cs" />
     <Compile Include="MonsterCard.cs" />
     <Compile Include="MonsterTCG_DB.cs" />
-    <Compile Include="Monstertyp.cs" />
     <Compile Include="ContextManager.cs" />
     <Compile Include="ResponseManager.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="SpellCard.cs" />
-    <Compile Include="Stack.cs" />
     <Compile Include="StatusCodesEnum.cs" />
-    <Compile Include="Store.cs" />
     <Compile Include="TcpHandler.cs" />
     <Compile Include="TextResponse.cs" />
     <Compile Include="TradeCards.cs" />
